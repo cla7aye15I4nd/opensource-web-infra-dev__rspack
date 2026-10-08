@@ -4,7 +4,6 @@ use std::{
 };
 
 use atomic_refcell::AtomicRefCell;
-use regex::Regex;
 use rspack_collections::{
   Identifiable, Identifier, IdentifierIndexMap, IdentifierMap, IdentifierSet,
 };
@@ -41,7 +40,10 @@ use rspack_plugin_rslib::{
 use rspack_plugin_split_chunks::CacheGroup;
 #[cfg(allocative)]
 use rspack_util::allocative;
-use rspack_util::fx_hash::{FxHashMap, FxHashSet};
+use rspack_util::{
+  fx_hash::{FxHashMap, FxHashSet},
+  placeholder::PlaceholderFinder,
+};
 use sugar_path::SugarPath;
 use tokio::sync::RwLock;
 
@@ -553,8 +555,8 @@ async fn additional_tree_runtime_requirements(
   Ok(())
 }
 
-static RSPACK_ESM_CHUNK_PLACEHOLDER_RE: LazyLock<Regex> =
-  LazyLock::new(|| Regex::new(r##"__RSPACK_ESM_CHUNK_[^'"\\]+"##).expect("should have regex"));
+static RSPACK_ESM_CHUNK_PLACEHOLDER: LazyLock<PlaceholderFinder> =
+  LazyLock::new(|| PlaceholderFinder::new("__RSPACK_ESM_CHUNK_"));
 
 #[plugin_hook(CompilationProcessAssets for EsmLibraryPlugin, stage = Compilation::PROCESS_ASSETS_STAGE_AFTER_OPTIMIZE_HASH)]
 async fn process_assets(&self, compilation: &mut Compilation) -> Result<()> {
@@ -589,13 +591,15 @@ async fn process_assets(&self, compilation: &mut Compilation) -> Result<()> {
 
       let chunk_ids_to_ukey = self.chunk_ids_to_ukey.borrow();
 
-      for captures in RSPACK_ESM_CHUNK_PLACEHOLDER_RE.find_iter(&content) {
-        let chunk_id = captures
-          .as_str()
-          .strip_prefix("__RSPACK_ESM_CHUNK_")
-          .expect("should have correct prefix");
-        let start = captures.range().start as u32;
-        let end = captures.range().end as u32;
+      for (range, chunk_id) in RSPACK_ESM_CHUNK_PLACEHOLDER.find_all(&content, |rest| {
+        let len = rest
+          .bytes()
+          .take_while(|b| !matches!(b, b'\'' | b'"' | b'\\'))
+          .count();
+        (len > 0).then(|| (len, &rest[..len]))
+      }) {
+        let start = range.start as u32;
+        let end = range.end as u32;
         let Some(chunk) = chunk_ids_to_ukey.get(chunk_id).map(|chunk_ukey| {
           compilation
             .build_chunk_graph_artifact

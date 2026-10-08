@@ -34,7 +34,7 @@ pub use plugin::LightningcssLoaderPlugin;
 
 pub const LIGHTNINGCSS_LOADER_IDENTIFIER: &str = "builtin:lightningcss-loader";
 
-pub type LightningcssLoaderVisitor = Box<dyn Send + Fn(&mut StyleSheet<'static, 'static>)>;
+pub type LightningcssLoaderVisitor = Box<dyn Send + Fn(&mut StyleSheet<'static>)>;
 
 #[cacheable]
 #[derive(Debug)]
@@ -303,10 +303,7 @@ impl Loader<RunnerContext> for LightningCssLoader {
   }
 }
 
-pub fn to_static(
-  stylesheet: StyleSheet,
-  options: ParserOptions<'static, 'static>,
-) -> StyleSheet<'static, 'static> {
+pub fn to_static(stylesheet: StyleSheet, options: ParserOptions<'static>) -> StyleSheet<'static> {
   let sources = stylesheet.sources;
   let rules = stylesheet.rules.into_owned();
   let license_comments = stylesheet.license_comments.into_owned();

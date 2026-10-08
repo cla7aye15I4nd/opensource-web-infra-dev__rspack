@@ -134,11 +134,11 @@ impl Cache {
     let Some(storage) = &self.storage else {
       return;
     };
-    if let Some(memory_cache) = &storage.memory_cache {
-      memory_cache.clear();
-    }
     if let Some(file_cache) = &storage.idle_file_cache {
       file_cache.shutdown().await;
+    }
+    if let Some(memory_cache) = &storage.memory_cache {
+      memory_cache.clear();
     }
   }
 }

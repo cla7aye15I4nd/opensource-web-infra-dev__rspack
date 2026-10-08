@@ -45,6 +45,10 @@ pub enum ExternalItem {
   Object(ExternalItemObject),
   String(String),
   RegExp(RspackRegex),
+  /// Synchronous request matcher for built-in external presets.
+  RequestPredicate(
+    #[cfg_attr(allocative, allocative(visit = allocative::visit_inline))] fn(&str) -> bool,
+  ),
   Fn(ExternalItemFn),
 }
 
@@ -54,6 +58,7 @@ impl std::fmt::Debug for ExternalItem {
       Self::Object(v) => f.debug_tuple("Object").field(v).finish(),
       Self::String(v) => f.debug_tuple("String").field(v).finish(),
       Self::RegExp(v) => f.debug_tuple("RegExp").field(v).finish(),
+      Self::RequestPredicate(_) => f.debug_tuple("RequestPredicate").field(&"...").finish(),
       Self::Fn(_) => f.debug_tuple("Fn").field(&"...").finish(),
     }
   }

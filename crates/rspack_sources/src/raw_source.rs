@@ -49,7 +49,9 @@ impl RawStringSource {
 }
 
 impl From<String> for RawStringSource {
-  fn from(value: String) -> Self {
+  fn from(mut value: String) -> Self {
+    // Source contents are immutable, so they do not need room to grow.
+    value.shrink_to_fit();
     Self(Cow::Owned(value))
   }
 }

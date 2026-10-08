@@ -8,10 +8,13 @@ use std::{
 };
 
 use regex::Regex;
+use rspack_cacheable::{cacheable, with::AsPreset};
 use rspack_error::Error;
 use rspack_fs::ReadableFileSystem;
 use rspack_loader_runner::{DescriptionData, ResourceData};
 use rspack_paths::{AssertUtf8, Utf8PathBuf};
+#[cfg(allocative)]
+use rspack_util::allocative;
 use rspack_util::identifier::insert_zero_width_space_for_fragment;
 use sugar_path::SugarPath;
 
@@ -45,7 +48,9 @@ pub struct ResolveArgs<'a> {
 }
 
 /// A successful path resolution or an ignored path.
+#[cacheable]
 #[derive(Debug, Clone, Eq, PartialEq)]
+#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub enum ResolveResult {
   Resource(Resource),
   Ignored,
@@ -54,8 +59,11 @@ pub enum ResolveResult {
 /// A successful path resolution.
 ///
 /// Contains the raw `package.json` value if there is one.
+#[cacheable]
 #[derive(Clone)]
+#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Resource {
+  #[cacheable(with=AsPreset)]
   pub path: Utf8PathBuf,
   pub query: String,
   pub fragment: String,

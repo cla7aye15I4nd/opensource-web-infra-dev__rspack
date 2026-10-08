@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use rspack_cacheable::{cacheable, cacheable_dyn};
 use rspack_collections::{IdentifierMap, IdentifierSet};
 use rspack_core::{
@@ -18,7 +20,7 @@ use crate::runtime_condition_used_by_exports;
 #[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct PureExpressionDependency {
   pub range: DependencyRange,
-  used_by_exports: Option<UsedByExports>,
+  used_by_exports: Option<Arc<UsedByExports>>,
   id: DependencyId,
   pub module_identifier: ModuleIdentifier,
 }
@@ -42,11 +44,11 @@ impl PureExpressionDependency {
       compilation,
       &self.module_identifier,
       runtime,
-      self.used_by_exports.as_ref(),
+      self.used_by_exports.as_deref(),
     )
   }
 
-  pub fn set_used_by_exports(&mut self, used_by_exports: Option<UsedByExports>) {
+  pub fn set_used_by_exports(&mut self, used_by_exports: Option<Arc<UsedByExports>>) {
     self.used_by_exports = used_by_exports;
   }
 }

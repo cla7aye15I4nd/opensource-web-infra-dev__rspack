@@ -34,6 +34,7 @@ pub struct NewCacheOptions {
   pub devtool: bool,
   pub loader: bool,
   pub minimize: bool,
+  pub resolver: bool,
 }
 
 impl NewCacheOptions {
@@ -44,11 +45,17 @@ impl NewCacheOptions {
       devtool: true,
       loader: true,
       minimize: true,
+      resolver: true,
     }
   }
 
   pub const fn is_enabled(self) -> bool {
-    self.code_generation || self.module || self.devtool || self.loader || self.minimize
+    self.code_generation
+      || self.module
+      || self.devtool
+      || self.loader
+      || self.minimize
+      || self.resolver
   }
 }
 

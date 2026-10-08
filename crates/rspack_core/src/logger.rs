@@ -230,7 +230,8 @@ pub trait Logger {
     }
   }
 
-  fn cache_end(&self, count: CacheCount) {
+  fn cache_end(&self, count: impl std::borrow::Borrow<CacheCount>) {
+    let count = count.borrow();
     let total = count.total.load(Ordering::Relaxed);
     if total != 0 {
       self.raw(LogType::Cache {
@@ -354,6 +355,7 @@ pub struct StartTimeAggregate {
 impl StartTimeAggregate {}
 
 #[derive(Debug)]
+#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CacheCount {
   label: &'static str,
   hit: AtomicU32,

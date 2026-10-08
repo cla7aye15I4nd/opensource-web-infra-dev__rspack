@@ -143,7 +143,10 @@ fn set_sync_modules(
           let dep = module_graph.dependency_by_id(&con.dependency_id);
           matches!(
             dep.dependency_type(),
-            DependencyType::EsmImport | DependencyType::EsmExportImport | DependencyType::Provided
+            DependencyType::EsmImport
+              | DependencyType::EsmExportImport
+              | DependencyType::EsmExportImportedSpecifier
+              | DependencyType::Provided
           )
         })
         .for_each(|con| {
@@ -176,7 +179,10 @@ fn set_async_modules(
         let dep = module_graph.dependency_by_id(&con.dependency_id);
         matches!(
           dep.dependency_type(),
-          DependencyType::EsmImport | DependencyType::EsmExportImport | DependencyType::Provided
+          DependencyType::EsmImport
+            | DependencyType::EsmExportImport
+            | DependencyType::EsmExportImportedSpecifier
+            | DependencyType::Provided
         )
       })
       .for_each(|con| {

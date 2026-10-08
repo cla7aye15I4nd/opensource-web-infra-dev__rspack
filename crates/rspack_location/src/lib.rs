@@ -163,14 +163,12 @@ impl fmt::Display for RealDependencyLocation {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct SyntheticDependencyLocation {
-  pub name: String,
+  pub name: Box<str>,
 }
 
 impl SyntheticDependencyLocation {
   pub fn new(name: &str) -> Self {
-    SyntheticDependencyLocation {
-      name: name.to_string(),
-    }
+    SyntheticDependencyLocation { name: name.into() }
   }
 }
 
