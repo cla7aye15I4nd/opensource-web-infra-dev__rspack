@@ -21,7 +21,7 @@ pub type ChunkFilterFunc =
 #[derive(Clone)]
 #[cfg_attr(allocative, derive(allocative::Allocative))]
 pub enum ChunkFilter {
-  Func(#[cfg_attr(allocative, allocative(visit = allocative::visit_opaque_arc))] ChunkFilterFunc),
+  Func(ChunkFilterFunc),
   All,
   Regex(RspackRegex),
   Async,

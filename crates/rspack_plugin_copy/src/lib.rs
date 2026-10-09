@@ -92,11 +92,10 @@ pub type ToFn = Box<dyn for<'a> Fn(ToFnCtx<'a>) -> BoxFuture<'a, Result<String>>
 #[cfg_attr(allocative, derive(allocative::Allocative))]
 pub enum ToOption {
   String(String),
-  Fn(#[cfg_attr(allocative, allocative(visit = allocative::visit_opaque_box))] ToFn),
+  Fn(ToFn),
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CopyPattern {
   pub from: String,
   #[debug(skip)]
@@ -110,7 +109,6 @@ pub struct CopyPattern {
   pub glob_options: CopyGlobOptions,
   pub copy_permissions: Option<bool>,
   #[debug(skip)]
-  #[cfg_attr(allocative, allocative(visit = allocative::visit_opaque_option_box))]
   pub transform_fn: Option<TransformerFn>,
   pub cache: Option<bool>,
 }

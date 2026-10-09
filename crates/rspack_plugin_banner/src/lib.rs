@@ -50,7 +50,7 @@ pub type BannerContentFn =
 #[cfg_attr(allocative, derive(allocative::Allocative))]
 pub enum BannerContent {
   String(String),
-  Fn(#[cfg_attr(allocative, allocative(visit = allocative::visit_opaque_box))] BannerContentFn),
+  Fn(BannerContentFn),
 }
 
 impl fmt::Debug for BannerContent {

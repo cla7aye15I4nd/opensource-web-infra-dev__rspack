@@ -18,7 +18,7 @@ type CacheGroupTestFn =
 #[cfg_attr(allocative, derive(allocative::Allocative))]
 pub enum CacheGroupTest {
   String(String),
-  Fn(#[cfg_attr(allocative, allocative(visit = allocative::visit_opaque_arc))] CacheGroupTestFn),
+  Fn(CacheGroupTestFn),
   RegExp(rspack_regex::RspackRegex),
   Enabled,
 }

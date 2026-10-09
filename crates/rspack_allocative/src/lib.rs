@@ -110,79 +110,7 @@ pub fn visit_opaque<T: ?Sized>(value: &T, visitor: &mut Visitor<'_>) {
   visitor.visit_opaque(value);
 }
 
-/// Count a shared opaque value and its Arc allocation, but report inaccessible captures.
-pub fn visit_opaque_arc<T: ?Sized>(value: &std::sync::Arc<T>, visitor: &mut Visitor<'_>) {
-  use std::{alloc::Layout, mem::size_of, sync::Arc};
-  let mut visitor = visitor.enter_self(value);
-  if let Some(mut pointer) = visitor.enter_shared(
-    Key::new("ptr"),
-    size_of::<*const T>(),
-    Arc::as_ptr(value).cast(),
-  ) {
-    let layout = Layout::new::<[usize; 2]>()
-      .extend(Layout::for_value(&**value))
-      .expect("a live Arc allocation must have a valid layout")
-      .0
-      .pad_to_align();
-    let mut allocation = pointer.enter(Key::new("ArcInner"), layout.size());
-    allocation.visit_opaque(&**value);
-    allocation.exit();
-    pointer.exit();
-  }
-  visitor.exit();
-}
-
-/// Count an opaque boxed value without pretending to traverse its nested allocations.
-// The field adapter needs the Box layout as well as its pointee.
-#[allow(clippy::borrowed_box)]
-pub fn visit_opaque_box<T: ?Sized>(value: &Box<T>, visitor: &mut Visitor<'_>) {
-  let mut visitor = visitor.enter_self(value);
-  let mut pointer = visitor.enter_unique(Key::new("ptr"), std::mem::size_of::<*const T>());
-  pointer.visit_opaque(&**value);
-  pointer.exit();
-  visitor.exit();
-}
-
 /// For audited leaf values, such as function pointers, which own no heap allocation.
 pub fn visit_inline<T: ?Sized>(value: &T, visitor: &mut Visitor<'_>) {
   visitor.enter_self(value).exit();
-}
-
-/// Preserve the option's inline storage and deduplicate an opaque shared callback.
-pub fn visit_opaque_option_arc<T: ?Sized>(
-  value: &Option<std::sync::Arc<T>>,
-  visitor: &mut Visitor<'_>,
-) {
-  let mut visitor = visitor.enter_self(value);
-  if let Some(value) = value {
-    visit_opaque_arc(value, &mut visitor);
-  }
-  visitor.exit();
-}
-
-/// Traverse an optional boxed array of optional shared opaque callbacks.
-pub fn visit_opaque_option_arc_slice<T: ?Sized>(
-  value: &Option<Box<[Option<std::sync::Arc<T>>]>>,
-  visitor: &mut Visitor<'_>,
-) {
-  let mut visitor = visitor.enter_self(value);
-  if let Some(values) = value {
-    let mut pointer = visitor.enter_unique(Key::new("ptr"), std::mem::size_of_val(values));
-    let mut data = pointer.enter(Key::new("callbacks"), std::mem::size_of_val(&**values));
-    for value in values.iter() {
-      visit_opaque_option_arc(value, &mut data);
-    }
-    data.exit();
-    pointer.exit();
-  }
-  visitor.exit();
-}
-
-/// Count an optional opaque callback, including its owned box allocation.
-pub fn visit_opaque_option_box<T: ?Sized>(value: &Option<Box<T>>, visitor: &mut Visitor<'_>) {
-  let mut visitor = visitor.enter_self(value);
-  if let Some(value) = value {
-    visit_opaque_box(value, &mut visitor);
-  }
-  visitor.exit();
 }

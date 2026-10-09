@@ -214,10 +214,14 @@ impl<'a> Visitor<'a> {
   }
 
   pub fn visit_opaque<T: ?Sized>(&mut self, value: &T) {
-    if std::mem::size_of_val(value) != 0 {
-      self.report_opaque::<T>();
+    let size = mem::size_of_val(value);
+    let mut opaque = self.enter(Key::new("opaque"), size);
+    let mut value_visitor = opaque.enter_self(value);
+    if size != 0 {
+      value_visitor.report_opaque::<T>();
     }
-    self.enter_self(value).exit();
+    value_visitor.exit();
+    opaque.exit();
   }
 
   pub fn visit_generic_map_fields<'b, 'x, K: Visit + 'x, V: Visit + 'x>(

@@ -13,3 +13,8 @@ impl<T: Allocative + ?Sized> Visit for T {
     self.visit(visitor);
   }
 }
+
+// The older Dylint compiler only checks this crate with snapshots disabled.
+pub(crate) fn try_visit_inner<T: 'static>(_value: &T, _visitor: &mut Visitor<'_>) -> bool {
+  false
+}

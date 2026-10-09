@@ -19,10 +19,7 @@ pub struct NormalModuleReplacementPluginOptions {
 #[cfg_attr(allocative, derive(allocative::Allocative))]
 pub enum NormalModuleReplacer {
   String(String),
-  Fn(
-    #[cfg_attr(allocative, allocative(visit = allocative::visit_opaque_box))]
-    NormalModuleReplacerFn,
-  ),
+  Fn(NormalModuleReplacerFn),
 }
 
 pub type NormalModuleReplacerFn = Box<

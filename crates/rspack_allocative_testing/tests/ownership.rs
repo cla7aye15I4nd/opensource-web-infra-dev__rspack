@@ -20,7 +20,13 @@ fn capture(value: &dyn Visit) -> (usize, String, String) {
 }
 
 fn capture_with(visit: impl FnOnce(&mut Visitor<'_>)) -> (usize, String, String) {
-  let mut builder = FlameGraphBuilder::with_shared_ownership();
+  capture_in(FlameGraphBuilder::with_shared_ownership(), visit)
+}
+
+fn capture_in(
+  mut builder: FlameGraphBuilder,
+  visit: impl FnOnce(&mut Visitor<'_>),
+) -> (usize, String, String) {
   let mut visitor = builder.root_visitor();
   visit(&mut visitor);
   visitor.exit();
@@ -407,4 +413,137 @@ fn opaque_callbacks_keep_their_allocation_without_executing_or_following_capture
   let value = (callback.clone(), callback);
   assert_eq!(capture(&value).0, size_of_val(&value) + allocation);
   assert!(!called.load(Ordering::Relaxed));
+}
+
+#[test]
+fn opaque_diagnostics_identify_each_field_without_changing_byte_weights() {
+  #[derive(Allocative)]
+  struct Fields {
+    #[allocative(visit = allocative::visit_opaque)]
+    first: Vec<u8>,
+    #[allocative(visit = allocative::visit_opaque)]
+    second: Vec<u8>,
+  }
+  let value = Fields {
+    first: Vec::with_capacity(4096),
+    second: Vec::with_capacity(8192),
+  };
+  let (total, folded, warnings) = capture(&value);
+  assert_eq!(total, size_of_val(&value));
+  let root = std::any::type_name::<Fields>();
+  let name = std::any::type_name::<Vec<u8>>();
+  assert_eq!(warnings.lines().count(), 2, "{warnings}");
+  for field in ["first", "second"] {
+    assert!(
+      folded.contains(&format!(";{field};opaque;{name} {}", size_of::<Vec<u8>>())),
+      "{folded}"
+    );
+    assert!(
+      warnings.contains(&format!(
+        "Unobserved nested allocations: {name} (path: {root};{field};opaque;{name})"
+      )),
+      "{warnings}"
+    );
+  }
+}
+
+#[test]
+fn opaque_shared_callbacks_keep_the_owner_path_and_are_counted_once() {
+  type Callback = dyn Fn(&str) -> usize + Send + Sync;
+  struct Owners {
+    first: Arc<Callback>,
+    second: Arc<Callback>,
+  }
+  let bytes = vec![0u8; 4096];
+  let callback: Arc<Callback> = Arc::new(move |text| bytes.len() + text.len());
+  let allocation = std::alloc::Layout::new::<[usize; 2]>()
+    .extend(std::alloc::Layout::for_value(&*callback))
+    .expect("callback layout")
+    .0
+    .pad_to_align()
+    .size();
+  let value = Owners {
+    first: callback.clone(),
+    second: callback,
+  };
+  assert!(Arc::ptr_eq(&value.first, &value.second));
+  for builder in [
+    FlameGraphBuilder::with_shared_ownership(),
+    FlameGraphBuilder::default(),
+  ] {
+    let (total, folded, warnings) = capture_in(builder, |visitor| value.visit_memory(visitor));
+    assert_eq!(total, size_of_val(&value) + allocation);
+    let name = std::any::type_name::<Callback>();
+    assert!(folded.contains(&format!(";opaque;{name} ")), "{folded}");
+    assert_eq!(warnings.lines().count(), 1, "{warnings}");
+    assert!(
+      warnings.contains(&format!(
+        "(path: {};first;",
+        std::any::type_name::<Owners>()
+      )),
+      "{warnings}"
+    );
+    assert!(!warnings.contains(";second;"), "{warnings}");
+  }
+}
+
+#[test]
+fn nested_optional_callbacks_count_slice_storage_and_deduplicate_opaque_payloads() {
+  type Callback = dyn Fn(&str) -> usize + Send + Sync;
+  let called = Arc::new(AtomicBool::new(false));
+  let callback_called = called.clone();
+  let bytes = vec![0u8; 4096];
+  let callback: Arc<Callback> = Arc::new(move |text| {
+    callback_called.store(true, Ordering::Relaxed);
+    bytes.len() + text.len()
+  });
+  let allocation = std::alloc::Layout::new::<[usize; 2]>()
+    .extend(std::alloc::Layout::for_value(&*callback))
+    .expect("callback layout")
+    .0
+    .pad_to_align()
+    .size();
+  let value = Some(vec![None, Some(callback.clone()), Some(callback)].into_boxed_slice());
+  let (total, folded, warnings) = capture(&value);
+  assert_eq!(
+    total,
+    size_of_val(&value) + 3 * size_of::<Option<Arc<Callback>>>() + allocation
+  );
+  assert_eq!(warnings.lines().count(), 1, "{warnings}");
+  assert!(folded.contains(";Some;"), "{folded}");
+  assert!(
+    warnings.contains(std::any::type_name::<Callback>()),
+    "{warnings}"
+  );
+  assert!(!called.load(Ordering::Relaxed));
+  let absent: Option<Box<[Option<Arc<Callback>>]>> = None;
+  let (total, _, warnings) = capture(&absent);
+  assert_eq!(total, size_of_val(&absent));
+  assert!(warnings.is_empty(), "{warnings}");
+}
+
+#[test]
+fn unknown_trait_objects_in_box_and_rc_use_the_generic_opaque_fallback() {
+  use std::{any::Any, rc::Rc};
+
+  let payload = String::with_capacity(4096);
+  let boxed: Box<dyn Any> = Box::new(payload);
+  let (total, _, warnings) = capture(&boxed);
+  assert_eq!(total, size_of_val(&boxed) + size_of::<String>());
+  assert!(
+    warnings.contains(std::any::type_name::<dyn Any>()),
+    "{warnings}"
+  );
+
+  let shared: Rc<dyn Any> = Rc::from(boxed);
+  let allocation = std::alloc::Layout::new::<[usize; 2]>()
+    .extend(std::alloc::Layout::for_value(&*shared))
+    .expect("shared payload layout")
+    .0
+    .pad_to_align()
+    .size();
+  let owners = (shared.clone(), shared);
+  let (total, _, warnings) = capture(&owners);
+  assert_eq!(total, size_of_val(&owners) + allocation);
+  assert_eq!(warnings.lines().count(), 1, "{warnings}");
 }

@@ -29,7 +29,7 @@ pub enum RuntimeChunkName {
   Single,
   Multiple,
   String(String),
-  Fn(#[cfg_attr(allocative, allocative(visit = allocative::visit_opaque_box))] RuntimeChunkNameFn),
+  Fn(RuntimeChunkNameFn),
 }
 
 impl fmt::Debug for RuntimeChunkName {

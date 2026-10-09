@@ -56,12 +56,10 @@ fn parse_module_ids(buffer: &[u8]) -> Result<BTreeMap<String, ModuleId>> {
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct SyncModuleIdsPlugin {
   path: String,
   context: Option<String>,
   #[debug(skip)]
-  #[cfg_attr(allocative, allocative(visit = allocative::visit_opaque_option_arc))]
   test: Option<ModuleFilterFn>,
   mode: SyncModuleIdsPluginMode,
   #[debug(skip)]

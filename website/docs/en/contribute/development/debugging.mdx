@@ -120,6 +120,10 @@ Run a project using that local binding with `RSPACK_ALLOCATIVE_DIR` set to an ab
 
 Ordinary Rust structs whose types satisfy `'static` are traversed using compile-time reflection, so they do not need an `Allocative` derive. The value itself can be local; temporary borrowed values require explicit typed traversal. Containers, locks, enums, and custom field policies still use explicit adapters. Unadapted enums, unaligned packed fields, and storage that cannot be safely inspected produce coverage warnings. Reflection uses the repository's pinned nightly toolchain; the snapshot format and viewing workflow remain the same.
 
+Opaque payloads appear as `opaque → Rust type name` in the byte tree, and coverage warnings include the type and owning field path. Trait objects expose their interface name, such as `dyn Fn(...)`; erased concrete capture types remain unavailable.
+
+`Box`, `Arc`, and `Rc` automatically traverse payloads that support memory inspection, falling back to opaque shallow bytes for unsupported payloads. `Option` and other containers compose this behavior without field annotations, including nested callback collections. Shared allocations retain their reference-count headers and are counted once. Heap allocations owned inside opaque payloads remain unobserved.
+
 For example, from the target project's directory:
 
 ```bash

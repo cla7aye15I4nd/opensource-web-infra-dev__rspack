@@ -15,7 +15,7 @@ pub type CheckResourceFn =
 
 #[cfg_attr(allocative, derive(allocative::Allocative))]
 pub enum CheckResourceContent {
-  Fn(#[cfg_attr(allocative, allocative(visit = allocative::visit_opaque_box))] CheckResourceFn),
+  Fn(CheckResourceFn),
 }
 
 #[derive(Debug)]

@@ -8,8 +8,6 @@ use rspack_core::{
   RuntimeModuleGenerateContext, RuntimeTemplate, SourceType, StringTemplatePlaceholder,
   impl_runtime_module,
 };
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::fx_hash::{FxIndexMap, FxIndexSet};
 use rustc_hash::FxHashMap;
 
@@ -44,7 +42,6 @@ fn render_full_hash<'value>(
 }
 
 #[impl_runtime_module]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct GetChunkFilenameRuntimeModule {
   #[cacheable(with=Unsupported)]
   content_type: &'static str,
@@ -53,10 +50,8 @@ pub struct GetChunkFilenameRuntimeModule {
   rspack_export_global: Option<String>,
   full_hash: bool,
   #[cacheable(with=Unsupported)]
-  #[cfg_attr(allocative, allocative(visit = allocative::visit_opaque_box))]
   all_chunks: GetChunkFilenameAllChunks,
   #[cacheable(with=Unsupported)]
-  #[cfg_attr(allocative, allocative(visit = allocative::visit_opaque_box))]
   filename_for_chunk: GetFilenameForChunk,
   chunk_ukey: ChunkUkey,
 }

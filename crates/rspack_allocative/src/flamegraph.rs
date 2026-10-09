@@ -234,7 +234,7 @@ impl IndexMut<TreeId> for Trees {
 
 #[derive(Clone, Debug)]
 struct TreeStack {
-  stack: Vec<TreeId>,
+  stack: Vec<(TreeId, Key)>,
   tree: TreeId,
 }
 
@@ -249,7 +249,7 @@ impl<'t> TreeStackRef<'t, '_> {
   }
 
   fn down(&mut self, key: Key) {
-    self.stack.stack.push(self.stack.tree);
+    self.stack.stack.push((self.stack.tree, key.clone()));
     let next_tree_id = TreeId(self.trees.trees.len());
     let child = match self.trees[self.stack.tree].children.entry(key) {
       hash_map::Entry::Occupied(e) => *e.get(),
@@ -265,7 +265,7 @@ impl<'t> TreeStackRef<'t, '_> {
 
   #[must_use]
   fn up(&mut self) -> bool {
-    if let Some(pop) = self.stack.stack.pop() {
+    if let Some((pop, _)) = self.stack.stack.pop() {
       self.stack.tree = pop;
       true
     } else {
@@ -310,7 +310,7 @@ unsafe impl Send for VisitedSharedPointer {}
 #[derive(Debug)]
 pub struct FlameGraphBuilder {
   shared_under_first_owner: bool,
-  opaque: std::collections::BTreeSet<&'static str>,
+  opaque: std::collections::BTreeSet<(&'static str, Vec<Key>)>,
   /// Visited shared pointers.
   visited_shared: FxHashSet<VisitedSharedPointer>,
   /// Tree data storage.
@@ -400,7 +400,10 @@ impl FlameGraphBuilder {
     let opaque = self
       .opaque
       .iter()
-      .map(|name| format!("Unobserved nested allocations: {name}\n"))
+      .map(|(name, path)| {
+        let path = path.iter().map(|key| &**key).collect::<Vec<_>>().join(";");
+        format!("Unobserved nested allocations: {name} (path: {path})\n")
+      })
       .collect::<String>();
     let tree = self.finish_impl();
     let (flamegraph, mut warnings) = tree.to_flame_graph();
@@ -461,7 +464,15 @@ impl FlameGraphBuilder {
 
 impl VisitorImpl for FlameGraphBuilder {
   fn opaque_impl(&mut self, name: &'static str) {
-    self.opaque.insert(name);
+    // Include the owning edges even when the legacy shared-allocation mode
+    // relocates the payload to a separate flamegraph root.
+    let path = self
+      .shared
+      .iter()
+      .chain(std::iter::once(&self.current))
+      .flat_map(|stack| stack.stack.iter().map(|(_, key)| key.clone()))
+      .collect();
+    self.opaque.insert((name, path));
   }
 
   fn enter_inline_impl(&mut self, name: Key, size: usize, _parent: NodeKind) {

@@ -214,7 +214,7 @@ impl SourceMapDevToolPluginOptions {
 #[cfg_attr(allocative, derive(allocative::Allocative))]
 enum SourceMappingUrlComment {
   String(String),
-  Fn(#[cfg_attr(allocative, allocative(visit = allocative::visit_opaque_box))] AppendFn),
+  Fn(AppendFn),
 }
 
 enum SourceMappingUrlCommentRef<'a> {

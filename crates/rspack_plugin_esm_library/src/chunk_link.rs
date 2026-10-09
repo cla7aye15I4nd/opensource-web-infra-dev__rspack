@@ -28,12 +28,10 @@ impl Ref {
 }
 
 #[derive(Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct SymbolRef {
   pub module: ModuleIdentifier,
   pub symbol: Atom,
   pub ids: Vec<Atom>,
-  #[cfg_attr(allocative, allocative(visit = allocative::visit_opaque_arc))]
   renderer: Arc<dyn Fn(&SymbolRef) -> String + Send + Sync>,
 }
 

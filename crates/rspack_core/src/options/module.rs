@@ -1054,11 +1054,7 @@ pub type AssetGeneratorDataUrlFn = Arc<
 #[cfg_attr(allocative, derive(allocative::Allocative))]
 pub enum AssetGeneratorDataUrl {
   Options(AssetGeneratorDataUrlOptions),
-  Func(
-    #[cacheable(with=Unsupported)]
-    #[cfg_attr(allocative, allocative(visit = allocative::visit_opaque_arc))]
-    AssetGeneratorDataUrlFn,
-  ),
+  Func(#[cacheable(with=Unsupported)] AssetGeneratorDataUrlFn),
 }
 
 impl fmt::Debug for AssetGeneratorDataUrl {
@@ -1287,10 +1283,7 @@ pub enum RuleSetCondition {
     items: Vec<RuleSetCondition>,
     can_sync: bool,
   },
-  Func(
-    #[cfg_attr(allocative, allocative(visit = allocative::visit_opaque_box))]
-    RuleSetConditionFnMatcher,
-  ),
+  Func(RuleSetConditionFnMatcher),
 }
 
 impl fmt::Debug for RuleSetCondition {

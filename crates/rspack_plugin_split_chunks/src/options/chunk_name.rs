@@ -23,6 +23,6 @@ type ChunkNameGetterFn = Arc<
 #[cfg_attr(allocative, derive(allocative::Allocative))]
 pub enum ChunkNameGetter {
   String(String),
-  Fn(#[cfg_attr(allocative, allocative(visit = allocative::visit_opaque_arc))] ChunkNameGetterFn),
+  Fn(ChunkNameGetterFn),
   Disabled,
 }

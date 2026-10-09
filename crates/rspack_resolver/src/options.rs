@@ -461,10 +461,7 @@ where
 #[cfg_attr(allocative, derive(allocative::Allocative))]
 pub enum Restriction {
   Path(PathBuf),
-  Fn(
-    #[cfg_attr(allocative, allocative(visit = allocative::visit_opaque_arc))]
-    Arc<dyn Fn(&Path) -> bool + Sync + Send>,
-  ),
+  Fn(Arc<dyn Fn(&Path) -> bool + Sync + Send>),
 }
 
 impl std::fmt::Debug for Restriction {
