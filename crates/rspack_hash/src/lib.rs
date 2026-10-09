@@ -316,7 +316,6 @@ impl Hasher for RspackHasher {
 
 #[cacheable]
 #[derive(Debug, Clone, Eq)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RspackHashDigest {
   #[cacheable(with=AsPreset)]
   encoded: SmolStr,

@@ -38,7 +38,6 @@ pub struct CopyRspackPluginOptions {
 }
 
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Info {
   pub immutable: Option<bool>,
   pub minimized: Option<bool>,
@@ -51,7 +50,6 @@ pub struct Info {
 }
 
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Related {
   pub source_map: Option<String>,
 }
@@ -118,7 +116,6 @@ pub struct CopyPattern {
 }
 
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CopyGlobOptions {
   pub case_sensitive_match: Option<bool>,
   pub dot: Option<bool>,
@@ -126,7 +123,6 @@ pub struct CopyGlobOptions {
 }
 
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RunPatternResult {
   pub source_filename: Utf8PathBuf,
   pub absolute_filename: Utf8PathBuf,
@@ -140,7 +136,6 @@ pub struct RunPatternResult {
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CopyRspackPlugin {
   pub patterns: Vec<CopyPattern>,
   pattern_cache: Mutex<Vec<Option<CachedPatternResult>>>,

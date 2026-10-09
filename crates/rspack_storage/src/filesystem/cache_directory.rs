@@ -2,7 +2,6 @@ use std::fmt;
 
 /// Filesystem persistent-cache directory name derived from a compiler path.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CacheDirectory(String);
 
 impl CacheDirectory {

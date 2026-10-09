@@ -5,12 +5,9 @@ use rspack_core::{
   ModuleDependency, ModuleGraph, ModuleGraphCacheArtifact, ReferencedExport, RuntimeSpec,
   TemplateContext, TemplateReplaceSource,
 };
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ImportMetaResolveDependency {
   pub id: DependencyId,
   pub request: String,
@@ -88,7 +85,6 @@ impl AsContextDependency for ImportMetaResolveDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ImportMetaResolveDependencyTemplate;
 
 impl ImportMetaResolveDependencyTemplate {

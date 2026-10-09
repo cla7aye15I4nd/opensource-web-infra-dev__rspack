@@ -333,7 +333,6 @@ pub fn compare_runtime(a: &RuntimeSpec, b: &RuntimeSpec) -> Ordering {
 }
 
 #[derive(Default, Clone, Debug, PartialEq, Eq)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RuntimeSpecMap<T> {
   pub mode: RuntimeMode,
   pub map: RuntimeKeyMap<T>,

@@ -1,6 +1,4 @@
 use rspack_cacheable::{cacheable, cacheable_dyn, utils::OwnedOrRef};
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use crate::{
   AffectType, AsContextDependency, AsDependencyCodeGeneration, AsModuleDependency, Dependency,
@@ -9,7 +7,6 @@ use crate::{
 
 #[cacheable]
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct TempDependency {
   id: DependencyId,
 }

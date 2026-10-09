@@ -87,7 +87,6 @@ define_hook!(NormalModuleLoaderStartYielding: Series(loader_context: &mut Loader
 define_hook!(NormalModuleBeforeLoaders: Series(module: &mut NormalModule),tracing=false);
 
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct NormalModuleHooks {
   pub read_resource: NormalModuleReadResourceHook,
   pub loader: NormalModuleLoaderHook,
@@ -97,7 +96,6 @@ pub struct NormalModuleHooks {
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct NormalModule {
   id: ModuleIdentifier,
   /// Context of this module

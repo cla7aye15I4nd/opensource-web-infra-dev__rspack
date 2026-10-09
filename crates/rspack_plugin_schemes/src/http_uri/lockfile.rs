@@ -14,7 +14,6 @@ use serde::{Deserialize, Serialize};
 use tokio::sync::Mutex;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct LockfileEntry {
   pub resolved: String,
   pub integrity: String,
@@ -41,7 +40,6 @@ pub enum LockfileValue {
 }
 
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Lockfile {
   version: u8,
   entries: FxHashMap<String, LockfileValue>,
@@ -187,7 +185,6 @@ impl LockfileAsync for Lockfile {
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct LockfileCache {
   lockfile: Mutex<Lockfile>,
   lockfile_path: Option<PathBuf>,

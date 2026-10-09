@@ -25,7 +25,6 @@ pub enum AMDRequireArrayItem {
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AMDRequireArrayDependency {
   id: DependencyId,
   deps_array: Vec<AMDRequireArrayItem>,
@@ -123,7 +122,6 @@ impl AsContextDependency for AMDRequireArrayDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AMDRequireArrayDependencyTemplate;
 
 impl AMDRequireArrayDependencyTemplate {

@@ -7,8 +7,6 @@ use rspack_core::{
   TemplateReplaceSource,
 };
 use rspack_error::Diagnostic;
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use super::{
   context_dependency_template_as_require_call, create_resource_identifier_for_context_dependency,
@@ -16,7 +14,6 @@ use super::{
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CommonJsRequireContextDependency {
   id: DependencyId,
   loc: DependencyLocation,
@@ -158,7 +155,6 @@ impl AsModuleDependency for CommonJsRequireContextDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CommonJsRequireContextDependencyTemplate;
 
 impl CommonJsRequireContextDependencyTemplate {

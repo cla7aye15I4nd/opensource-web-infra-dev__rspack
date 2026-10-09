@@ -53,21 +53,18 @@ pub struct RawCollectTypeScriptInfoOptions {
 }
 
 #[derive(Default, Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub(crate) struct RspackExperiments {
   pub(crate) import: Option<Vec<ImportOptions>>,
   pub(crate) react_server_components: ReactServerComponentsOptions,
 }
 
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub(crate) struct ReactServerComponentsOptions {
   pub(crate) enabled: bool,
   pub(crate) disable_client_api_checks: bool,
 }
 
 #[derive(Default, Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub(crate) struct CollectTypeScriptInfoOptions {
   pub(crate) type_exports: Option<bool>,
   pub(crate) exported_enum: Option<CollectingEnumKind>,
@@ -156,7 +153,6 @@ impl<'de> Deserialize<'de> for DetectSyntax {
 
 #[derive(Default, Debug, Clone, Deserialize)]
 #[serde(rename_all = "camelCase", default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub(crate) struct RawJscConfig {
   #[serde(default)]
   parser: Option<Value>,
@@ -305,7 +301,6 @@ impl ResourceSpecificJscCache {
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub(crate) struct ResourceSpecificJscResolver {
   raw_jsc: RawJscConfig,
   cache: ResourceSpecificJscCache,

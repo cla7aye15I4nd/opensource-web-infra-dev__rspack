@@ -3,7 +3,6 @@ use rspack_cacheable::cacheable;
 
 #[cacheable]
 #[derive(Debug, PartialEq, Hash, Eq, Clone, Copy, PartialOrd, Ord)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct SourceMapKind(u8);
 
 bitflags! {

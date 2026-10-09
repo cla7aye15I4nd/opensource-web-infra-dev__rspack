@@ -1,5 +1,3 @@
-#[cfg(allocative)]
-use rspack_core::allocative;
 // Port of https://github.com/webpack/webpack/blob/4b4ca3bb53f36a5b8fc6bc1bd976ed7af161bd80/lib/optimize/RemoveEmptyChunksPlugin.js
 use rspack_core::{
   ChunkKind, Compilation, CompilationOptimizeChunks, Logger, Plugin, incremental::Mutation,
@@ -9,7 +7,6 @@ use rspack_hook::{plugin, plugin_hook};
 
 #[plugin]
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RemoveEmptyChunksPlugin;
 
 impl RemoveEmptyChunksPlugin {

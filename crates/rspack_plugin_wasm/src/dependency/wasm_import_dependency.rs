@@ -5,13 +5,10 @@ use rspack_core::{
   ModuleGraphCacheArtifact, ReferencedExport, RuntimeSpec,
 };
 use rspack_intern::Atom;
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 #[allow(dead_code)]
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct WasmImportDependency {
   id: DependencyId,
   #[cacheable(with=AsPreset)]

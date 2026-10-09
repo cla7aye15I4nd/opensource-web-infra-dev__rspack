@@ -1,6 +1,3 @@
-#[cfg(allocative)]
-use rspack_util::allocative;
-
 mod parser;
 
 use std::sync::Arc;
@@ -34,7 +31,6 @@ impl ConflictingValuesError {
 
 #[plugin]
 #[derive(Default, Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ProvidePlugin {
   provide: Arc<ProvideValue>,
   names: Arc<HashSet<String>>,

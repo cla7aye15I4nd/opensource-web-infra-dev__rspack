@@ -1,7 +1,5 @@
 use rspack_intern::AtomRef;
 use rspack_util::SpanExt;
-#[cfg(allocative)]
-use rspack_util::allocative;
 pub mod ast;
 mod call_hooks_name;
 pub mod estree;
@@ -318,7 +316,6 @@ impl From<Span> for StatementPath {
 
 #[cacheable]
 #[derive(Debug, Clone, Hash, PartialEq, Eq)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct DestructuringAssignmentProperty {
   pub range: DependencyRange,
   #[cacheable(with=AsPreset)]
@@ -330,7 +327,6 @@ pub struct DestructuringAssignmentProperty {
 
 #[cacheable]
 #[derive(Debug, Default, Clone, PartialEq, Eq)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct DestructuringAssignmentProperties {
   #[cacheable(with=AsVec<AsCacheable>)]
   inner: FxIndexSet<DestructuringAssignmentProperty>,

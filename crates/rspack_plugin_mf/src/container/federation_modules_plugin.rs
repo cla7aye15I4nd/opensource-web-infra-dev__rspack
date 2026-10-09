@@ -56,7 +56,6 @@ static FEDERATION_MODULES_PLUGIN_HOOKS_MAP: OnceLock<
 
 #[plugin]
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct FederationModulesPlugin;
 
 impl FederationModulesPlugin {

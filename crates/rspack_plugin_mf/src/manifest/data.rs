@@ -17,7 +17,6 @@ pub struct AssetsSplit {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct StatsBuildInfo {
   #[serde(rename = "buildVersion")]
   pub build_version: String,
@@ -150,6 +149,3 @@ pub struct ManifestRoot {
   #[serde(default)]
   pub exposes: Vec<ManifestExpose>,
 }
-
-#[cfg(allocative)]
-use rspack_util::allocative;

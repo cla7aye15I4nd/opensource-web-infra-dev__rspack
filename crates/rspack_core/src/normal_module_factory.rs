@@ -3,8 +3,6 @@ use std::{borrow::Cow, ops::Deref, sync::Arc};
 use rspack_error::{Result, error};
 use rspack_hook::define_hook;
 use rspack_loader_runner::{Loader, LoaderRunnerOptions, Scheme, get_scheme};
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::{
   MergeFrom,
   fx_hash::{FxDashMap, FxHashMap as HashMap},
@@ -376,7 +374,6 @@ fn resolve_module_options(
 }
 
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct NormalModuleFactoryHooks {
   pub before_resolve: NormalModuleFactoryBeforeResolveHook,
   pub factorize: NormalModuleFactoryFactorizeHook,
@@ -396,7 +393,6 @@ pub struct NormalModuleFactoryHooks {
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct NormalModuleFactory {
   options: Arc<CompilerOptions>,
   global_parser_options: HashMap<String, ParserOptions>,

@@ -1,7 +1,5 @@
 use std::sync::Arc;
 
-#[cfg(allocative)]
-use rspack_core::allocative;
 use rspack_core::{
   AfterResolveResult, BeforeResolveResult, ContextElementDependency, ContextMode,
   ContextModuleFactoryAfterResolve, ContextModuleFactoryBeforeResolve, ContextModuleOptions,
@@ -23,7 +21,6 @@ pub struct ContextReplacementPluginOptions {
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ContextReplacementPlugin {
   resource_reg_exp: RspackRegex,
   new_content_resource: Option<String>,

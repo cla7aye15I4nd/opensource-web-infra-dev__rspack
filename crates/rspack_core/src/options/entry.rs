@@ -1,5 +1,3 @@
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::fx_hash::FxIndexMap;
 
 use crate::{
@@ -37,7 +35,6 @@ where
 }
 
 #[derive(Debug, Default, Clone, Hash, PartialEq, Eq)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct EntryData {
   pub dependencies: Vec<DependencyId>,
   pub include_dependencies: Vec<DependencyId>,

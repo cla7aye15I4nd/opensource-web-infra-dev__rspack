@@ -10,8 +10,6 @@ use rspack_core::{
 };
 use rspack_error::Result;
 use rspack_hook::{plugin, plugin_hook};
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rustc_hash::FxHashMap;
 use serde::Serialize;
 
@@ -28,7 +26,6 @@ struct CollectSharedEntryAssetItem<'a> {
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CollectSharedEntryPluginOptions {
   pub consumes: Vec<(String, Arc<ConsumeOptions>)>,
   pub filename: Option<String>,
@@ -36,7 +33,6 @@ pub struct CollectSharedEntryPluginOptions {
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CollectSharedEntryPlugin {
   options: CollectSharedEntryPluginOptions,
 }

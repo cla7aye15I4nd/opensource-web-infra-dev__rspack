@@ -43,7 +43,6 @@ impl ConstValue {
 }
 
 #[derive(Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ConstValuePlugin {
   inline: bool,
 }

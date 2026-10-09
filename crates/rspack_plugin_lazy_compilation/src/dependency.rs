@@ -5,12 +5,9 @@ use rspack_core::{
 };
 use rspack_error::Diagnostic;
 use rspack_paths::InternedPathSet;
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 #[cacheable]
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct DependencyOptions {
   pub request: String,
 
@@ -22,7 +19,6 @@ pub struct DependencyOptions {
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct LazyCompilationDependency {
   id: DependencyId,
   options: DependencyOptions,

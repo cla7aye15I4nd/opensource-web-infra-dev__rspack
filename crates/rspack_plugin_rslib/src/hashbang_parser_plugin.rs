@@ -4,7 +4,6 @@ use rspack_core::ConstDependency;
 use rspack_plugin_javascript::{JavascriptParserPlugin, visitors::JavascriptParser};
 use swc_experimental_ecma_ast::Program;
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct HashbangParserPlugin;
 
 #[rspack_plugin_javascript::implemented_javascript_parser_hooks]
@@ -45,6 +44,3 @@ impl<'p, 'a> JavascriptParserPlugin<'p, 'a> for HashbangParserPlugin {
     None
   }
 }
-
-#[cfg(allocative)]
-use rspack_util::allocative;

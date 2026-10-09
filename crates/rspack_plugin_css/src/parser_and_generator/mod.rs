@@ -1,6 +1,3 @@
-#[cfg(allocative)]
-use rspack_util::allocative;
-
 pub mod generator;
 mod parser;
 mod source_builder;
@@ -52,7 +49,6 @@ pub type CssExportsRef<'a> = FxIndexMap<&'a str, &'a FxIndexSet<CssExport>>;
 
 #[cacheable]
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CssParserAndGenerator {
   pub hot: bool,
   pub export_type: Option<CssExportType>,
@@ -138,7 +134,6 @@ pub fn get_used_exports<'a>(
 
 #[cacheable]
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CodeGenerationDataUnusedLocalIdent {
   #[cacheable(with=AsVec<AsPreset>)]
   pub(crate) idents: FxHashSet<SmolStr>,

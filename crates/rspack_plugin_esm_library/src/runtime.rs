@@ -3,15 +3,12 @@ use rspack_core::{
   RuntimeTemplate, impl_runtime_module,
 };
 use rspack_plugin_javascript::impl_plugin_for_js_plugin::chunk_has_js;
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::json_stringify_str;
 
 const ESM_CHUNK_LOADING_RUNTIME_MODULE_VARIABLES: &[&str] = &["esmInstalledChunks", "esmChunkMap"];
 
 #[impl_runtime_module]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub(crate) struct EsmRegisterModuleRuntimeModule {}
 
 impl EsmRegisterModuleRuntimeModule {
@@ -58,7 +55,6 @@ impl RuntimeModule for EsmRegisterModuleRuntimeModule {
 
 #[impl_runtime_module]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub(crate) struct EsmEnsureChunkRuntimeModule {}
 
 impl EsmEnsureChunkRuntimeModule {
@@ -111,7 +107,6 @@ impl RuntimeModule for EsmEnsureChunkRuntimeModule {
 
 #[impl_runtime_module]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub(crate) struct EsmChunkLoadingRuntimeModule {}
 
 impl EsmChunkLoadingRuntimeModule {

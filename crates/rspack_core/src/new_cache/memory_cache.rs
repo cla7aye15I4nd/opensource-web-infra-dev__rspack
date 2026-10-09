@@ -38,7 +38,6 @@ enum MemoryCacheValue {
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct MemoryCacheEntry {
   value: MemoryCacheValue,
   ttl: AtomicU32,
@@ -69,7 +68,6 @@ impl MemoryCacheEntry {
 
 /// In-memory cache with generation-based garbage collection.
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct MemoryCache {
   max_generations: MemoryCacheGenerations,
   entries: FxDashMap<CacheKey, MemoryCacheEntry>,

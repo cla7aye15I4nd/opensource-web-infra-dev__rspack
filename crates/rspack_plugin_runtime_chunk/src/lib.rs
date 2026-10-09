@@ -9,7 +9,6 @@ use rspack_hook::{plugin, plugin_hook};
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RuntimeChunkPlugin {
   name: RuntimeChunkName,
 }

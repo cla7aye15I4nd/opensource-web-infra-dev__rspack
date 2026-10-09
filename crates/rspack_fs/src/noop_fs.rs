@@ -1,11 +1,8 @@
 use rspack_paths::Utf8Path;
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use crate::{Error, FileMetadata, FilePermissions, Result, WritableFileSystem};
 
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct NoopFileSystem;
 
 #[async_trait::async_trait]

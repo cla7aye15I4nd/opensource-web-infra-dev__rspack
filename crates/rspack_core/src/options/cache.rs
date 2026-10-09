@@ -23,7 +23,6 @@ pub enum CacheOptions {
 
 /// Filesystem cache configuration, cloned with the compiler's cache options.
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct FileSystemCacheOptions {
   pub build_dependencies: Vec<PathBuf>,
   pub cache_directory: Utf8PathBuf,

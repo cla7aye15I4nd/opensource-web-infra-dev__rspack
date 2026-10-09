@@ -2,7 +2,6 @@ use rspack_plugin_javascript::{JavascriptParserPlugin, visitors::JavascriptParse
 use swc_experimental_ecma_ast::{MemberExpr, UnaryExpr};
 
 #[derive(PartialEq, Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RslibParserPlugin {
   intercept_api_plugin: bool,
 }
@@ -48,6 +47,3 @@ impl<'p, 'a> JavascriptParserPlugin<'p, 'a> for RslibParserPlugin {
     }
   }
 }
-
-#[cfg(allocative)]
-use rspack_util::allocative;

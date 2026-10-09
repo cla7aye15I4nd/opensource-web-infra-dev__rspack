@@ -7,12 +7,9 @@ use rspack_core::{
   create_exports_object_referenced, create_no_exports_referenced,
 };
 use rspack_hash::{RspackHash, RspackHasher};
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 #[cacheable]
 #[derive(Debug, RspackHash)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ModuleDecoratorDependency {
   decorator: RuntimeGlobals,
   allow_exports_access: bool,
@@ -90,7 +87,6 @@ impl Dependency for ModuleDecoratorDependency {
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ModuleDecoratorDependencyTemplate;
 
 impl ModuleDecoratorDependencyTemplate {

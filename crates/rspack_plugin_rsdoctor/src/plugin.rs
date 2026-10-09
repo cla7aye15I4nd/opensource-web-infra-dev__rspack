@@ -156,14 +156,12 @@ impl fmt::Display for RsdoctorPluginChunkGraphFeature {
 }
 
 #[derive(Debug, Hash, PartialEq, Eq, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RsdoctorPluginSourceMapFeature {
   pub module: bool,
   pub cheap: bool,
 }
 
 #[derive(Default, Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RsdoctorPluginOptions {
   pub module_graph_features: FxHashSet<RsdoctorPluginModuleGraphFeature>,
   pub chunk_graph_features: FxHashSet<RsdoctorPluginChunkGraphFeature>,
@@ -173,7 +171,6 @@ pub struct RsdoctorPluginOptions {
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RsdoctorPlugin {
   pub options: RsdoctorPluginOptions,
 }

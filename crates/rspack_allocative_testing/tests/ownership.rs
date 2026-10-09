@@ -1,21 +1,29 @@
 #![cfg(allocative)]
 
 use std::{
+  borrow::Cow,
+  cell::UnsafeCell,
   collections::HashMap,
-  mem::size_of,
+  mem::{ManuallyDrop, MaybeUninit, size_of},
   sync::{
     Arc, LazyLock, Mutex,
     atomic::{AtomicBool, Ordering},
   },
 };
 
-use allocative::{Allocative, FlameGraphBuilder};
-use rspack_sources::{BoxSource, CachedSource, RawStringSource, SourceExt};
+use allocative::{Allocative, FlameGraphBuilder, Visit, Visitor};
+use rspack_sources::{BoxSource, CachedSource, RawStringSource, SourceExt, SourceValue};
 use smol_str::SmolStr;
 
-fn capture(value: &dyn Allocative) -> (usize, String, String) {
+fn capture(value: &dyn Visit) -> (usize, String, String) {
+  capture_with(|visitor| value.visit_memory(visitor))
+}
+
+fn capture_with(visit: impl FnOnce(&mut Visitor<'_>)) -> (usize, String, String) {
   let mut builder = FlameGraphBuilder::with_shared_ownership();
-  builder.visit_root(value);
+  let mut visitor = builder.root_visitor();
+  visit(&mut visitor);
+  visitor.exit();
   let output = builder.finish();
   let folded = output.flamegraph().write();
   let total = folded
@@ -60,7 +68,6 @@ fn hash_map_accounts_for_capacity_and_nested_allocations() {
 
 // Deliberately test both the Arc allocation and its separately owned String buffer.
 #[allow(clippy::rc_buffer)]
-#[derive(Allocative)]
 struct Owners {
   first: Arc<String>,
   second: Arc<String>,
@@ -74,6 +81,7 @@ fn shared_allocations_stay_below_the_first_owner_and_are_counted_once() {
     first: text.clone(),
     second: text,
   };
+  assert!(Arc::ptr_eq(&value.first, &value.second));
   let (total, folded, warnings) = capture(&value);
   assert_eq!(total, single + size_of::<Arc<String>>());
   assert!(
@@ -91,7 +99,6 @@ fn shared_allocations_stay_below_the_first_owner_and_are_counted_once() {
   assert!(warnings.is_empty(), "{warnings}");
 }
 
-#[derive(Allocative)]
 struct Node {
   next: Mutex<Option<Arc<Node>>>,
   bytes: Vec<u8>,
@@ -108,6 +115,7 @@ fn strong_cycles_terminate_and_deduplicate() {
     bytes: vec![0; 8192],
   });
   *first.next.lock().unwrap() = Some(second.clone());
+  assert_eq!(first.bytes.len() + second.bytes.len(), 4096 + 8192);
   let (total, _, warnings) = capture(&first);
   *first.next.lock().unwrap() = None;
   *second.next.lock().unwrap() = None;
@@ -163,4 +171,240 @@ fn locked_values_report_missing_coverage_without_blocking() {
     warnings.contains("Unobserved nested allocations"),
     "{warnings}"
   );
+}
+
+#[test]
+fn ordinary_nested_fields_arrays_and_static_references_need_no_derive() {
+  struct Leaf {
+    text: String,
+  }
+  struct Root<'a> {
+    borrowed: &'a str,
+    values: Vec<(Leaf, [Leaf; 2])>,
+  }
+  let borrowed = "borrowed storage is counted by its owner";
+  let value = Root {
+    borrowed,
+    values: vec![(
+      Leaf {
+        text: String::with_capacity(31),
+      },
+      [
+        Leaf {
+          text: String::with_capacity(47),
+        },
+        Leaf {
+          text: String::with_capacity(73),
+        },
+      ],
+    )],
+  };
+  assert_eq!(value.borrowed, borrowed);
+  let expected = size_of_val(&value)
+    + value.values.capacity() * size_of::<(Leaf, [Leaf; 2])>()
+    + value.values[0].0.text.capacity()
+    + value.values[0]
+      .1
+      .iter()
+      .map(|leaf| leaf.text.capacity())
+      .sum::<usize>();
+  let (total, folded, warnings) = capture(&value);
+  assert_eq!(total, expected);
+  assert!(folded.contains(";text;"), "{folded}");
+  assert!(warnings.is_empty(), "{warnings}");
+}
+
+#[test]
+fn trait_object_bridge_visits_the_unannotated_concrete_type() {
+  trait Module: Visit {
+    fn name(&self) -> &str;
+  }
+  struct TextModule {
+    text: String,
+  }
+  impl Module for TextModule {
+    fn name(&self) -> &str {
+      &self.text
+    }
+  }
+  let text = String::with_capacity(4096);
+  let expected = size_of::<Box<dyn Module>>() + size_of::<TextModule>() + text.capacity();
+  let value: Box<dyn Module> = Box::new(TextModule { text });
+  assert_eq!(value.name(), "");
+  let (total, folded, warnings) = capture(&value);
+  assert_eq!(total, expected);
+  assert!(folded.contains("TextModule;text;"), "{folded}");
+  assert!(warnings.is_empty(), "{warnings}");
+}
+
+#[test]
+fn generic_enum_adapter_accepts_unannotated_payloads() {
+  #[derive(Allocative)]
+  #[allocative(bound = "T: allocative::Visit + 'static")]
+  enum Value<T> {
+    Empty,
+    Data(T),
+  }
+  struct Payload {
+    text: String,
+  }
+  let payload = Payload {
+    text: String::with_capacity(4096),
+  };
+  let expected = size_of::<Value<Payload>>() + payload.text.capacity();
+  let (total, _, warnings) = capture(&Value::Data(payload));
+  assert_eq!(total, expected);
+  assert!(warnings.is_empty(), "{warnings}");
+  assert_eq!(
+    capture(&Value::<Payload>::Empty).0,
+    size_of::<Value<Payload>>()
+  );
+}
+
+#[test]
+fn temporary_borrowed_sources_use_typed_adapters_without_following_borrows() {
+  let text = String::from("temporary source");
+  let borrowed = SourceValue::String(Cow::Borrowed(&text));
+  let (total, _, warnings) = capture_with(|visitor| borrowed.visit(visitor));
+  assert_eq!(total, size_of_val(&borrowed));
+  assert!(warnings.is_empty(), "{warnings}");
+
+  let owned = SourceValue::String(Cow::Owned(String::with_capacity(4096)));
+  let (total, _, warnings) = capture_with(|visitor| owned.visit(visitor));
+  assert_eq!(total, size_of_val(&owned) + 4096);
+  assert!(warnings.is_empty(), "{warnings}");
+}
+
+#[test]
+fn explicit_field_policy_takes_precedence_over_reflection() {
+  #[derive(Allocative)]
+  struct Value {
+    text: String,
+    #[allocative(visit = allocative::visit_opaque)]
+    external: Vec<u8>,
+  }
+  let value = Value {
+    text: String::with_capacity(1024),
+    external: Vec::with_capacity(8192),
+  };
+  let (total, _, warnings) = capture(&value);
+  assert_eq!(total, size_of_val(&value) + value.text.capacity());
+  assert!(
+    warnings.contains("Unobserved nested allocations"),
+    "{warnings}"
+  );
+}
+
+#[test]
+fn unsupported_enum_reports_omitted_heap_instead_of_reading_inactive_fields() {
+  enum Value {
+    Empty,
+    Data(String),
+  }
+  let value = Value::Data(String::with_capacity(4096));
+  assert!(matches!(&value, Value::Data(text) if text.capacity() >= 4096));
+  for value in [Value::Empty, value] {
+    let (total, _, warnings) = capture(&value);
+    assert_eq!(total, size_of_val(&value));
+    assert!(
+      warnings.contains("Unobserved nested allocations"),
+      "{warnings}"
+    );
+  }
+}
+
+#[test]
+fn unsynchronized_uninitialized_and_dropped_storage_is_not_read() {
+  let cell = UnsafeCell::new(String::with_capacity(4096));
+  let uninit = MaybeUninit::<String>::uninit();
+  let mut dropped = ManuallyDrop::new(String::with_capacity(4096));
+  // SAFETY: Drop once, without moving or reading the payload afterwards.
+  unsafe { ManuallyDrop::drop(&mut dropped) };
+  for (total, _, warnings) in [capture(&cell), capture(&uninit), capture(&dropped)] {
+    assert_eq!(total, size_of::<String>());
+    assert!(
+      warnings.contains("Unobserved nested allocations"),
+      "{warnings}"
+    );
+  }
+}
+
+#[test]
+fn packed_fields_are_not_borrowed_at_an_invalid_alignment() {
+  #[repr(C, packed)]
+  struct Packed {
+    byte: u8,
+    text: String,
+  }
+  #[repr(C, align(16))]
+  struct Root {
+    byte: u8,
+    packed: Packed,
+  }
+  let value = Root {
+    byte: 0,
+    packed: Packed {
+      byte: 0,
+      text: String::with_capacity(4096),
+    },
+  };
+  assert_eq!(
+    std::mem::offset_of!(Root, packed) + std::mem::offset_of!(Packed, text),
+    2
+  );
+  let (total, _, warnings) = capture(&value);
+  assert_eq!(total, size_of_val(&value));
+  assert!(
+    warnings.contains("Unobserved nested allocations"),
+    "{warnings}"
+  );
+}
+
+#[test]
+fn array_lengths_with_const_expressions_keep_typed_field_adapters() {
+  const COUNT: usize = 2;
+  #[derive(Allocative)]
+  struct Value {
+    items: [String; COUNT + 1],
+  }
+  let value = Value {
+    items: std::array::from_fn(|i| String::with_capacity(127 + i)),
+  };
+  let expected = size_of_val(&value) + value.items.iter().map(String::capacity).sum::<usize>();
+  let (total, _, warnings) = capture(&value);
+  assert_eq!(total, expected);
+  assert!(warnings.is_empty(), "{warnings}");
+}
+
+#[test]
+fn opaque_callbacks_keep_their_allocation_without_executing_or_following_captures() {
+  let bytes = vec![0u8; 4096];
+  let called = Arc::new(AtomicBool::new(false));
+  let callback_called = Arc::clone(&called);
+  let callback: Box<dyn Fn() -> usize + Send + Sync> = Box::new(move || {
+    callback_called.store(true, Ordering::Relaxed);
+    bytes.len()
+  });
+  let expected = size_of_val(&callback) + size_of_val(&*callback);
+  let (total, _, warnings) = capture(&callback);
+  assert_eq!(total, expected);
+  assert!(
+    warnings.contains("Unobserved nested allocations: dyn"),
+    "{warnings}"
+  );
+  assert!(
+    !warnings.contains("*const"),
+    "callback payload was lost: {warnings}"
+  );
+
+  let callback: Arc<dyn Fn() -> usize + Send + Sync> = Arc::from(callback);
+  let allocation = std::alloc::Layout::new::<[usize; 2]>()
+    .extend(std::alloc::Layout::for_value(&*callback))
+    .expect("callback layout")
+    .0
+    .pad_to_align()
+    .size();
+  let value = (callback.clone(), callback);
+  assert_eq!(capture(&value).0, size_of_val(&value) + allocation);
+  assert!(!called.load(Ordering::Relaxed));
 }

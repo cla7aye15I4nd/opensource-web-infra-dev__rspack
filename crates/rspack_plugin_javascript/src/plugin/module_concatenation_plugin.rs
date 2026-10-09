@@ -24,8 +24,6 @@ use rspack_core::{
 };
 use rspack_error::{Result, ToStringResultToRspackResultExt};
 use rspack_hook::{plugin, plugin_hook};
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::itoa;
 
 fn format_bailout_reason(msg: &str) -> String {
@@ -293,7 +291,6 @@ impl ConcatConfiguration {
 
 #[plugin]
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ModuleConcatenationPlugin {
   bailout_reason_map: IdentifierDashMap<Arc<Cow<'static, str>>>,
 }

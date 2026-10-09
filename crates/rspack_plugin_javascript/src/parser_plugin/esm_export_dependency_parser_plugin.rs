@@ -5,8 +5,6 @@ use rspack_core::{
   BoxDependency, ConstDependency, Dependency, DependencyRange, DependencyType, ImportPhase,
 };
 use rspack_util::SpanExt;
-#[cfg(allocative)]
-use rspack_util::allocative;
 use swc_experimental_ecma_ast::{CommentKind, Expr, GetSpan, Span};
 
 use super::{
@@ -30,7 +28,6 @@ use crate::{
   },
 };
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ESMExportDependencyParserPlugin;
 
 fn create_default_exported_namespace_dependency(

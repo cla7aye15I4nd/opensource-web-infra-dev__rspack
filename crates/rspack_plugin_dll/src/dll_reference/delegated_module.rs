@@ -14,8 +14,6 @@ use rspack_core::{
 };
 use rspack_error::{Result, impl_empty_diagnosable_trait};
 use rspack_hash::{RspackHash, RspackHashDigest, RspackHasher};
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::{json_stringify, source_map::ModuleSourceMapConfig};
 
 use super::delegated_source_dependency::DelegatedSourceDependency;
@@ -26,7 +24,6 @@ pub type SourceRequest = String;
 #[impl_source_map_config]
 #[cacheable]
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct DelegatedModule {
   source_request: SourceRequest,
   request: Option<ModuleId>,

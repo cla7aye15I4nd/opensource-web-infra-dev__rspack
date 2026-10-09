@@ -9,8 +9,6 @@ use rspack_core::{
 use rspack_plugin_javascript::dependency::{
   ESMExportImportedSpecifierDependency, ESMImportSideEffectDependency, ImportDependency,
 };
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rustc_hash::FxHashSet;
 
 pub fn cutout_star_re_export_externals(
@@ -243,7 +241,6 @@ pub fn render_dyn_import_external_module(
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub(crate) struct ImportDependencyTemplate {
   pub(crate) template: Option<Arc<dyn DependencyTemplate>>,
 }
@@ -275,7 +272,6 @@ impl DependencyTemplate for ImportDependencyTemplate {
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub(crate) struct ExportImportedDependencyTemplate {
   pub(crate) template: Option<Arc<dyn DependencyTemplate>>,
 }

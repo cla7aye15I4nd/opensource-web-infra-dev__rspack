@@ -2,8 +2,6 @@
 use cow_utils::CowUtils;
 use itertools::Itertools;
 use rspack_collections::{Identifier, IdentifierSet};
-#[cfg(allocative)]
-use rspack_core::allocative;
 use rspack_core::{Compilation, CompilationSeal, CompilerEmit, Logger, ModuleGraph, Plugin};
 use rspack_error::{Diagnostic, Result};
 use rspack_hook::{plugin, plugin_hook};
@@ -11,7 +9,6 @@ use rustc_hash::{FxBuildHasher, FxHashMap as HashMap, FxHashSet as HashSet};
 
 #[plugin]
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CaseSensitivePlugin;
 
 impl CaseSensitivePlugin {

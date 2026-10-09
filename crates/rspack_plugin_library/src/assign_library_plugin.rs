@@ -70,7 +70,6 @@ impl Prefix {
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AssignLibraryPluginOptions {
   pub library_type: String,
   pub prefix: Prefix,
@@ -87,7 +86,6 @@ struct AssignLibraryPluginParsed<'a> {
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AssignLibraryPlugin {
   options: AssignLibraryPluginOptions,
 }

@@ -1,5 +1,3 @@
-#[cfg(allocative)]
-use rspack_core::allocative;
 use rspack_core::{
   BoxModule, DependencyType, ModuleFactoryCreateData, NormalModuleFactoryAfterFactorize, Plugin,
 };
@@ -10,7 +8,6 @@ use crate::node_builtins::is_node_builtin;
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct EsmNodeTargetPlugin;
 
 impl Default for EsmNodeTargetPlugin {

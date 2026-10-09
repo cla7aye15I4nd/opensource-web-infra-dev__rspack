@@ -254,7 +254,6 @@ pub trait InfrastructureLogSink: Send + Sync {
 }
 
 #[derive(Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct InfrastructureLogger {
   sink: Arc<dyn InfrastructureLogSink>,
   name: Arc<str>,
@@ -355,7 +354,6 @@ pub struct StartTimeAggregate {
 impl StartTimeAggregate {}
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CacheCount {
   label: &'static str,
   hit: AtomicU32,
@@ -376,7 +374,6 @@ impl CacheCount {
 pub type CompilationLogging = Arc<DashMap<Arc<str>, Vec<LogType>, BuildHasherDefault<FxHasher>>>;
 
 #[derive(Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CompilationLogger {
   logging: CompilationLogging,
   name: Arc<str>,
@@ -420,8 +417,8 @@ impl Logger for CompilationLogger {
 }
 
 #[cfg(allocative)]
-impl allocative::Allocative for dyn InfrastructureLogSink {
-  fn visit<'a, 'b: 'a>(&self, visitor: &'a mut allocative::Visitor<'b>) {
+impl allocative::Visit for dyn InfrastructureLogSink {
+  fn visit_memory<'a, 'b: 'a>(&self, visitor: &'a mut allocative::Visitor<'b>) {
     visitor.visit_opaque(self);
   }
 }

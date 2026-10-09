@@ -8,8 +8,6 @@ use rspack_core::{
 };
 use rspack_error::{Diagnostic, Result};
 use rspack_hook::{plugin, plugin_hook};
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::{comparators::compare_ids, itoa};
 
 use crate::id_helpers::{
@@ -190,7 +188,6 @@ fn assign_named_module_ids(
 
 #[plugin]
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct NamedModuleIdsPlugin;
 
 #[plugin_hook(CompilationModuleIds for NamedModuleIdsPlugin)]

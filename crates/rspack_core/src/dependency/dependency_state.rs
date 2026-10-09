@@ -5,7 +5,6 @@ use rspack_error::Diagnostic;
 
 #[cacheable]
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct DependencyCriticalState {
   #[cacheable(with=Lock)]
   value: RwLock<Option<Diagnostic>>,

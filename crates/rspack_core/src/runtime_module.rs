@@ -90,7 +90,6 @@ impl BitOrAssign for RuntimeModuleRuntimeRequirements {
 
 #[cacheable]
 #[derive(Debug, Default, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RuntimeModuleCommon {
   pub id: Identifier,
   pub chunk: Option<ChunkUkey>,
@@ -273,7 +272,6 @@ pub trait RuntimeModule:
   }
 }
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RuntimeModuleVariableProvider {
   pub variables: fn() -> &'static [&'static str],
 }

@@ -10,8 +10,6 @@ use rspack_core::{
   get_context, property_access, to_normal_comment,
 };
 use rspack_error::{Error, Severity};
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::{SpanExt, json_stringify_str};
 use swc_experimental_ecma_ast::{
   AssignExpr, CallExpr, Expr, GetSpan, MemberExpr, MemberProp, MetaPropKind, OptChainBase,
@@ -303,7 +301,6 @@ impl ImportMetaBuiltinProperty {
   }
 }
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ImportMetaPlugin(pub(crate) ArcComputed<ResolvedModuleOptions, ImportMeta>);
 
 impl ImportMetaPlugin {
@@ -906,7 +903,6 @@ impl<'p, 'a> JavascriptParserPlugin<'p, 'a> for ImportMetaPlugin {
 }
 
 // use when parser.import_meta is false
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ImportMetaDisabledPlugin;
 
 #[rspack_macros::implemented_javascript_parser_hooks]

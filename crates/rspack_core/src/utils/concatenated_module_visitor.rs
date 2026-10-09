@@ -4,7 +4,6 @@ use swc_core::ecma::{
 };
 
 #[derive(Clone, Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ConcatenatedModuleIdent {
   pub id: Ident,
   pub shorthand: bool,

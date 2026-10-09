@@ -1,14 +1,11 @@
 use std::sync::Arc;
 
 use rspack_core::ConstDependency;
-#[cfg(allocative)]
-use rspack_util::allocative;
 use swc_experimental_ecma_ast::ThisExpr;
 
 use super::JavascriptParserPlugin;
 use crate::visitors::JavascriptParser;
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ESMTopLevelThisParserPlugin;
 
 #[rspack_macros::implemented_javascript_parser_hooks]

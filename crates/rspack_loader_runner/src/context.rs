@@ -5,8 +5,6 @@ use rspack_cacheable::cacheable;
 use rspack_error::Diagnostic;
 use rspack_paths::{InternedPath, InternedPathSet, Utf8Path};
 use rspack_sources::SourceMap;
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use crate::{
   AdditionalData, Content, LoaderItem, LoaderRunnerPlugin, ParseMeta, ResourceData,
@@ -37,7 +35,6 @@ impl State {
 
 #[cacheable]
 #[derive(Clone, Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct LoaderDependencies {
   pub file: InternedPathSet,
   pub context: InternedPathSet,

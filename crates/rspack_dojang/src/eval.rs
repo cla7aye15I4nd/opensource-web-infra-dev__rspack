@@ -5,7 +5,6 @@ use crate::expr::*;
 
 // Evaluate the parsed expression.
 #[derive(PartialEq, Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Eval {
   pub expr: Vec<Expr>,
 }
@@ -18,7 +17,6 @@ pub enum Expr {
 }
 
 #[derive(PartialEq, Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Function {
   pub name: String,
   pub params: Vec<Eval>,

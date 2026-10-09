@@ -334,7 +334,6 @@ pub(crate) fn stream_chunks_default_fields<'chunk, 'source>(
 
 /// `GeneratedSourceInfo` abstraction, see [webpack-sources GeneratedSourceInfo](https://github.com/webpack/webpack-sources/blob/9f98066311d53a153fdc7c633422a1d086528027/lib/helpers/getGeneratedSourceInfo.js)
 #[derive(Debug, PartialEq, Eq)]
-#[cfg_attr(feature = "allocative", derive(allocative::Allocative))]
 pub struct GeneratedInfo {
   /// Generated line
   pub generated_line: u32,
@@ -918,7 +917,6 @@ fn stream_chunks_of_source_map_lines_full<'chunk, 'source>(
 }
 
 #[derive(Debug)]
-#[cfg_attr(feature = "allocative", derive(allocative::Allocative))]
 struct SourceMapLineData<'a> {
   pub mappings_data: Vec<i64>,
   pub chunks: Vec<TextSpan<'a>>,

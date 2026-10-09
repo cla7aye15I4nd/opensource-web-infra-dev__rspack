@@ -12,7 +12,6 @@ use serde::Deserialize;
 #[cacheable]
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Draft {
   pub custom_media: bool,
 }
@@ -20,7 +19,6 @@ pub struct Draft {
 #[cacheable]
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct NonStandard {
   pub deep_selector_combinator: bool,
 }
@@ -28,7 +26,6 @@ pub struct NonStandard {
 #[cacheable]
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct PseudoClasses {
   pub hover: Option<String>,
   pub active: Option<String>,

@@ -27,9 +27,16 @@ pub type BoxSource = Arc<dyn Source>;
 #[cfg_attr(feature = "allocative", derive(allocative::Allocative))]
 pub enum SourceValue<'a> {
   /// Text content stored as a UTF-8 string.
-  String(Cow<'a, str>),
+  String(
+    // Use the typed Cow adapter: this value can contain a temporary borrow.
+    #[cfg_attr(feature = "allocative", allocative(visit = allocative::Allocative::visit))]
+    Cow<'a, str>,
+  ),
   /// Binary content stored as raw bytes.
-  Buffer(Cow<'a, [u8]>),
+  Buffer(
+    #[cfg_attr(feature = "allocative", allocative(visit = allocative::Allocative::visit))]
+    Cow<'a, [u8]>,
+  ),
 }
 
 impl<'a> SourceValue<'a> {
@@ -145,10 +152,10 @@ pub trait Source:
 /// Allocative support for source trait objects in profiling builds.
 #[doc(hidden)]
 #[cfg(feature = "allocative")]
-pub trait SourceAllocative: allocative::Allocative {}
+pub trait SourceAllocative: allocative::Visit {}
 
 #[cfg(feature = "allocative")]
-impl<T: allocative::Allocative + ?Sized> SourceAllocative for T {}
+impl<T: allocative::Visit + ?Sized> SourceAllocative for T {}
 
 /// No additional bound is needed in regular builds.
 #[doc(hidden)]
@@ -284,7 +291,6 @@ impl<T: Source + 'static> SourceExt for T {
 
 /// Options for [Source::map].
 #[derive(Debug, Clone)]
-#[cfg_attr(feature = "allocative", derive(allocative::Allocative))]
 pub struct MapOptions {
   /// Whether have columns info in generated [SourceMap] mappings.
   pub columns: bool,
@@ -320,7 +326,6 @@ fn is_all_empty(val: &[Cow<'_, str>]) -> bool {
 
 /// The source map created by [Source::map].
 #[derive(Serialize)]
-#[cfg_attr(feature = "allocative", derive(allocative::Allocative))]
 pub(crate) struct SourceMapFields<'a> {
   pub(crate) version: u8,
   #[serde(skip_serializing_if = "Option::is_none")]
@@ -415,7 +420,6 @@ enum SourceMapOwner {
 }
 
 /// The source map created by [Source::map].
-#[cfg_attr(feature = "allocative", derive(allocative::Allocative))]
 pub struct SourceMap<'a> {
   // Kept to retain data borrowed by `fields`; it is intentionally not read.
   #[allow(dead_code)]
@@ -834,7 +838,6 @@ fn optional_u32_array_field<'a>(
 
 /// Represent a [Mapping] information of source map.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-#[cfg_attr(feature = "allocative", derive(allocative::Allocative))]
 pub struct Mapping {
   /// Generated line.
   pub generated_line: u32,
@@ -846,7 +849,6 @@ pub struct Mapping {
 
 /// Represent original position information of a [Mapping].
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-#[cfg_attr(feature = "allocative", derive(allocative::Allocative))]
 pub struct OriginalLocation {
   /// Source index.
   pub source_index: u32,

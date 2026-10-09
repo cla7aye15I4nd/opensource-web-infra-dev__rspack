@@ -8,12 +8,9 @@ use rspack_core::{
   ReferencedExport, RuntimeSpec,
 };
 use rspack_intern::Atom;
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CssComposeDependency {
   id: DependencyId,
   request: String,

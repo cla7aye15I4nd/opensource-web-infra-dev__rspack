@@ -74,7 +74,6 @@ pub enum LazyUntil {
 
 #[cacheable]
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct LazyDependencies {
   #[cacheable(with=AsMap<AsPreset, AsPreset>)]
   forward_id_to_request: FxHashMap<Atom, Atom>,
@@ -149,7 +148,6 @@ pub enum HasLazyDependencies {
 }
 
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ModuleToLazyMake {
   module_to_lazy_dependencies: IdentifierMap<HasLazyDependencies>,
 }

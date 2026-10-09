@@ -3,8 +3,6 @@ use std::{
   ops::{Deref, DerefMut},
 };
 
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rustc_hash::FxHashMap;
 
 use crate::{
@@ -42,7 +40,6 @@ pub fn render_lexical_declarations(
 }
 
 #[derive(Debug, Default, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RuntimeProxyMetadata {
   pub tree_runtime_requirements: RuntimeGlobals,
   pub module_proxy_requirements: RuntimeGlobals,
@@ -97,7 +94,6 @@ impl RuntimeProxyMetadata {
 }
 
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RuntimeProxyMetadataArtifact(FxHashMap<ChunkUkey, RuntimeProxyMetadata>);
 
 impl ArtifactExt for RuntimeProxyMetadataArtifact {

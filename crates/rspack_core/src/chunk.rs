@@ -30,7 +30,6 @@ pub enum ChunkKind {
 pub type ChunkContentHash = HashMap<SourceType, RspackHashDigest>;
 
 #[derive(Debug, PartialEq, Eq)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ChunkHashesResult {
   hash: RspackHashDigest,
   content_hash: ChunkContentHash,
@@ -51,7 +50,6 @@ impl ChunkHashesResult {
 }
 
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ChunkRenderResult {
   pub manifests: Vec<RenderManifestEntry>,
   pub diagnostics: Vec<Diagnostic>,
@@ -97,7 +95,6 @@ impl ChunkSplitData {
 }
 
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Chunk {
   ukey: ChunkUkey,
   kind: ChunkKind,

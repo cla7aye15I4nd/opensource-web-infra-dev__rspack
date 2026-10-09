@@ -10,8 +10,6 @@ use rspack_core::{
 use rspack_error::{Error, Severity};
 use rspack_intern::Atom;
 use rspack_util::SpanExt;
-#[cfg(allocative)]
-use rspack_util::allocative;
 use swc_experimental_ecma_ast::{BlockStmtOrExpr, CallExpr, ExprOrSpread, GetSpan, Pat};
 
 use crate::{
@@ -38,7 +36,6 @@ fn is_reserved_param(pat: &Pat) -> bool {
     .is_some_and(|ident| RESERVED_NAMES.contains(&ident.id.sym.as_str()))
 }
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AMDRequireDependenciesBlockParserPlugin;
 
 #[rspack_macros::implemented_javascript_parser_hooks]

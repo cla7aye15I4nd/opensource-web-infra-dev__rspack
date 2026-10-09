@@ -1,11 +1,8 @@
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rustc_hash::FxHashMap;
 
 use crate::{ArtifactExt, ChunkHashesResult, ChunkUkey, incremental::IncrementalPasses};
 
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ChunkHashesArtifact {
   chunk_to_hashes: FxHashMap<ChunkUkey, ChunkHashesResult>,
 }

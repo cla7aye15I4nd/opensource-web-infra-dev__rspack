@@ -1,6 +1,3 @@
-#[cfg(allocative)]
-use rspack_util::allocative;
-
 pub mod commonjs_external;
 pub mod dyn_import;
 
@@ -14,7 +11,6 @@ use rspack_core::{
 /// namespace. Persist this parser result with the module, including nested scopes.
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub(crate) struct ExternalBindingBailout;
 
 impl ExternalBindingBailout {

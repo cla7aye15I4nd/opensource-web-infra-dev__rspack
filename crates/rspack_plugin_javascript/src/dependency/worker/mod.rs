@@ -1,6 +1,3 @@
-#[cfg(allocative)]
-use rspack_util::allocative;
-
 mod create_script_url_dependency;
 
 use concat_string::concat_string;
@@ -19,7 +16,6 @@ use rspack_hash::{RspackHash, RspackHasher};
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct WorkerDependency {
   id: DependencyId,
   request: String,
@@ -147,7 +143,6 @@ impl AsContextDependency for WorkerDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct WorkerDependencyTemplate;
 
 pub static WORKER_STATIC_URL_PLACEHOLDER: &str = "RSPACK_AUTO_WORKER_STATIC_URL_PLACEHOLDER_";

@@ -4,13 +4,10 @@ use rspack_core::{
   DependencyTemplate, DependencyTemplateType, DependencyType, TemplateContext,
   TemplateReplaceSource,
 };
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::json_stringify_str;
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RstestRequireResolveOriginDependency {
   callee_range: DependencyRange,
   args_end: u32,
@@ -39,7 +36,6 @@ impl AsContextDependency for RstestRequireResolveOriginDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RstestRequireResolveOriginDependencyTemplate {
   function_name: String,
 }

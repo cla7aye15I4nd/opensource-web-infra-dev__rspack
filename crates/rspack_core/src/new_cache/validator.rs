@@ -11,7 +11,6 @@ use crate::{
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct CacheValidatorData {
   rspack_pkg_version: String,
   cache_version: String,
@@ -45,7 +44,6 @@ pub(super) enum CacheValidatorResult {
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub(super) struct CacheValidator {
   data: Mutex<CacheValidatorData>,
   codec: Arc<CacheCodec>,

@@ -10,15 +10,12 @@ use rspack_core::{
   RuntimeSpec, SideEffectsStateArtifact, TemplateContext, TemplateReplaceSource, UsedName,
   property_access_with_optional,
 };
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use super::ExportsBase;
 use crate::Atom;
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CommonJsSelfReferenceDependency {
   id: DependencyId,
   range: DependencyRange,
@@ -125,7 +122,6 @@ impl DependencyCodeGeneration for CommonJsSelfReferenceDependency {
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CommonJsSelfReferenceDependencyTemplate;
 
 impl CommonJsSelfReferenceDependencyTemplate {

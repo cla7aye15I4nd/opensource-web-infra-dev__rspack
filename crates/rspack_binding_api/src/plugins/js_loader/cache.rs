@@ -18,7 +18,6 @@ use rspack_util::fx_hash::FxHashMap as HashMap;
 use super::context::JsLoaderDependencies;
 
 #[cacheable]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct LoaderCacheEntry {
   content: Option<Vec<u8>>,
   content_is_string: bool,
@@ -286,6 +285,3 @@ impl JsLoaderCache {
     })
   }
 }
-
-#[cfg(allocative)]
-use rspack_util::allocative;

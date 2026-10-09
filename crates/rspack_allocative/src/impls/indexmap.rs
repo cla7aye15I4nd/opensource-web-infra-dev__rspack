@@ -15,6 +15,7 @@ use std::mem;
 use indexmap::{IndexMap, IndexSet};
 
 use crate::{
+  Visit,
   allocative_trait::Allocative,
   impls::{common::UNUSED_CAPACITY_NAME, hashbrown_util::raw_table_alloc_size_for_len},
   key::Key,
@@ -32,7 +33,7 @@ fn add_raw_table_for_len<T>(visitor: &mut Visitor, len: usize) {
   }
 }
 
-impl<T: Allocative, S> Allocative for IndexSet<T, S> {
+impl<T: Visit, S> Allocative for IndexSet<T, S> {
   fn visit<'a, 'b: 'a>(&self, visitor: &'a mut Visitor<'b>) {
     let mut visitor = visitor.enter_self_sized::<Self>();
     {
@@ -48,7 +49,7 @@ impl<T: Allocative, S> Allocative for IndexSet<T, S> {
   }
 }
 
-impl<K: Allocative, V: Allocative, S> Allocative for IndexMap<K, V, S> {
+impl<K: Visit, V: Visit, S> Allocative for IndexMap<K, V, S> {
   fn visit<'a, 'b: 'a>(&self, visitor: &'a mut Visitor<'b>) {
     let mut visitor = visitor.enter_self_sized::<Self>();
     {

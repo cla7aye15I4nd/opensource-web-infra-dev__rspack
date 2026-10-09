@@ -3,8 +3,6 @@ use std::mem;
 use futures::Future;
 use rspack_collections::IdentifierMap;
 use rspack_error::Result;
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::{fx_hash::FxIndexMap, tracing_preset::TRACING_BENCH_TARGET};
 use rustc_hash::FxHashMap as HashMap;
 use tracing::instrument;
@@ -18,7 +16,6 @@ use crate::{
 };
 
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct BuildChunkGraphArtifact {
   pub chunk_by_ukey: ChunkByUkey,
   pub chunk_graph: ChunkGraph,

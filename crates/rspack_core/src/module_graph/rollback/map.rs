@@ -14,6 +14,10 @@ use rustc_hash::FxBuildHasher;
 
 #[derive(Debug)]
 #[cfg_attr(allocative, derive(allocative::Allocative))]
+#[cfg_attr(
+  allocative,
+  allocative(bound = "K: allocative::Visit + 'static, V: allocative::Visit + 'static")
+)]
 pub enum Action<K, V> {
   Inserted { key: K, previous: Option<V> },
   Removed { key: K, value: V },
@@ -23,7 +27,7 @@ pub enum Action<K, V> {
 #[cfg_attr(allocative, derive(allocative::Allocative))]
 #[cfg_attr(
   allocative,
-  allocative(bound = "K: allocative::Allocative, V: allocative::Allocative, S")
+  allocative(bound = "K: allocative::Visit + 'static, V: allocative::Visit + 'static, S: 'static")
 )]
 pub struct RollbackMap<K, V, S = FxBuildHasher> {
   map: HashMap<K, V, S>,

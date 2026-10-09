@@ -13,7 +13,6 @@ use crate::{
 };
 
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Mutations {
   inner: Vec<Mutation>,
 

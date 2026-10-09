@@ -2,8 +2,6 @@ use std::sync::Arc;
 
 use rspack_core::{ConstDependency, RuntimeGlobals, RuntimeRequirementsDependency};
 use rspack_util::SpanExt;
-#[cfg(allocative)]
-use rspack_util::allocative;
 use swc_experimental_ecma_ast::{CallExpr, Expr, GetSpan, Ident, MemberExpr, UnaryExpr};
 
 use crate::{
@@ -12,7 +10,6 @@ use crate::{
   visitors::JavascriptParser,
 };
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AMDParserPlugin;
 
 const DEFINE: &str = "define";

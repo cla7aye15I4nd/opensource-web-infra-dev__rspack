@@ -5,12 +5,9 @@ use rspack_core::{
   TemplateReplaceSource,
 };
 use rspack_hash::{RspackHash, RspackHasher};
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 #[cacheable]
 #[derive(Debug, RspackHash)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ExternalModuleDependency {
   module: String,
   import_specifier: Vec<(String, String)>,
@@ -50,7 +47,6 @@ impl DependencyCodeGeneration for ExternalModuleDependency {
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ExternalModuleDependencyTemplate;
 
 impl ExternalModuleDependencyTemplate {

@@ -11,8 +11,6 @@ use rspack_error::{Error, Severity, cyan, yellow};
 use rspack_fs::ReadableFileSystem;
 use rspack_loader_runner::DescriptionData;
 use rspack_paths::{AssertUtf8, InternedPathSet};
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::location::byte_line_column_to_offset;
 use rustc_hash::FxHasher;
 
@@ -25,7 +23,6 @@ use crate::{
 /// Cloning returns independent dependency collections to each cache caller while sharing paths.
 #[cacheable]
 #[derive(Debug, Default, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ResolveDependencies {
   /// Files that were found on file system; entries carry the precomputed
   /// `FxHash` from `rspack_resolver`.
@@ -115,7 +112,6 @@ impl ResolveInnerOptions<'_> {
 ///
 /// Internal caches are shared.
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Resolver {
   inner_fs: Arc<dyn ReadableFileSystem>,
   resolver: rspack_resolver::ResolverGeneric<BoxFS>,

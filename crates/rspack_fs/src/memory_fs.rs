@@ -70,7 +70,6 @@ impl FileType {
 }
 
 #[derive(Debug, Default, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct MemoryFileSystem {
   files: Arc<Mutex<FxHashMap<Utf8PathBuf, FileType>>>,
 }

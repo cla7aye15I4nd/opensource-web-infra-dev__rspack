@@ -23,7 +23,6 @@ use crate::{InfrastructureLogger, Logger, cache::CacheCodec};
 const VALIDATOR_KEY: &str = "validator";
 
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct PendingWrites {
   entries: FxDashMap<CacheKey, PendingWrite>,
   new_build_dependencies: Mutex<Option<InternedPathSet>>,
@@ -47,7 +46,6 @@ impl PendingWrites {
   }
 }
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct State {
   database: Database,
   pending_writes: PendingWrites,
@@ -64,7 +62,6 @@ impl std::fmt::Debug for State {
 
 /// Filesystem cache implementation scheduled by [`super::IdleFileCache`].
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct FileCacheStrategy {
   validator: CacheValidator,
   codec: Arc<CacheCodec>,

@@ -6,14 +6,11 @@ use rspack_core::{
   ModuleGraphCacheArtifact, ResourceIdentifier, TemplateContext, TemplateReplaceSource,
 };
 use rspack_error::Diagnostic;
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use super::create_resource_identifier_for_context_dependency;
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RequireContextDependency {
   id: DependencyId,
   options: ContextOptions,
@@ -117,7 +114,6 @@ impl AsModuleDependency for RequireContextDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RequireContextDependencyTemplate;
 
 impl RequireContextDependencyTemplate {

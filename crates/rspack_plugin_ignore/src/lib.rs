@@ -19,7 +19,6 @@ pub enum CheckResourceContent {
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct IgnorePluginOptions {
   pub resource_reg_exp: Option<RspackRegex>,
   pub context_reg_exp: Option<RspackRegex>,
@@ -29,7 +28,6 @@ pub struct IgnorePluginOptions {
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct IgnorePlugin {
   options: IgnorePluginOptions,
 }

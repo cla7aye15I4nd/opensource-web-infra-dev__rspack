@@ -62,7 +62,6 @@ impl std::fmt::Debug for ProgressPluginOptions {
 static MULTI_PROGRESS: LazyLock<MultiProgress> =
   LazyLock::new(|| MultiProgress::with_draw_target(ProgressDrawTarget::stdout_with_hz(100)));
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ProgressPluginDisplayOptions {
   // the prefix name of progress bar
   pub prefix: String,
@@ -77,7 +76,6 @@ pub struct ProgressPluginDisplayOptions {
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ProgressPluginStateInfo {
   pub value: String,
   pub time: Instant,

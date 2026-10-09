@@ -24,7 +24,6 @@ impl PathMatcher {
 /// Snapshot options
 #[cacheable]
 #[derive(Debug, Clone, Hash)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct SnapshotOptions {
   /// immutable paths, snapshot will ignore them
   pub immutable_paths: Vec<PathMatcher>,
@@ -42,7 +41,6 @@ pub struct SnapshotOptions {
 
 #[cacheable]
 #[derive(Debug, Clone, Copy, Hash)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct SnapshotStrategyOptions {
   pub hash: bool,
   pub timestamp: bool,

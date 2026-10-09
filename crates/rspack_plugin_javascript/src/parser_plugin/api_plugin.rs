@@ -8,8 +8,6 @@ use rspack_core::{
   runtime_mode::RuntimeMode as ExperimentRuntimeMode,
 };
 use rspack_error::{Error, Severity};
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::{SpanExt, json_stringify_str};
 use swc_experimental_ecma_ast::{
   AssignExpr, AssignOp, CallExpr, GetSpan, Ident, MemberExpr, Pat, Span, UnaryExpr, VarDeclarator,
@@ -256,12 +254,10 @@ static IMPORT_META_RUNTIME_APIS: &[ImportMetaRuntimeApi] = &[
   },
 ];
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct APIPluginOptions {
   module: bool,
 }
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct APIPlugin {
   options: APIPluginOptions,
 }

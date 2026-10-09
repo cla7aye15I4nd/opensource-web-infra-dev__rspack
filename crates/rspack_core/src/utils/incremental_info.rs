@@ -11,7 +11,10 @@ use rustc_hash::FxBuildHasher;
 ///
 /// The `added`, `updated`, `removed` are disjoint.
 #[cfg_attr(allocative, derive(allocative::Allocative))]
-#[cfg_attr(allocative, allocative(bound = "T: allocative::Allocative, S"))]
+#[cfg_attr(
+  allocative,
+  allocative(bound = "T: allocative::Visit + 'static, S: 'static")
+)]
 pub struct IncrementalInfo<T, S = FxBuildHasher> {
   /// The added data but never removed.
   added: HashSet<T, S>,

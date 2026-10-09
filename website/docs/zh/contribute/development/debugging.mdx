@@ -122,6 +122,8 @@ pnpm run build:js
 
 使用这个本地 binding 运行项目，并将 `RSPACK_ALLOCATIVE_DIR` 设置为新的绝对路径目录。每次构建或重新构建完成缓存收尾后，Rspack 会在 compiler 销毁前采集 compiler 和 compilation。每份快照包括字节权重（`.allocative`）、覆盖范围警告、元数据，以及按类型分组的模块和依赖条目数量。共享分配只统计一次，归入首次访问它的所有者下。
 
+类型满足 `'static` 的普通 Rust 结构体通过编译期反射遍历，无需添加 `Allocative` derive。对象本身可以是局部变量；包含临时借用的值需要显式的类型安全访问。容器、锁、enum 和自定义字段访问规则仍使用显式适配。未适配的 enum、未对齐的 packed 字段，以及无法安全访问的存储会产生覆盖范围警告。反射使用仓库固定的 nightly 工具链，快照格式和查看方式保持一致。
+
 例如，在目标项目目录中运行：
 
 ```bash

@@ -95,7 +95,6 @@ pub enum StorageOptions {
 
 /// Options for the legacy persistent cache.
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct PersistentCacheOptions {
   pub build_dependencies: BuildDepsOptions,
   pub version: String,

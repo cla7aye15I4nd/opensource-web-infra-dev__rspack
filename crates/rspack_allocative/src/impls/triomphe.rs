@@ -14,9 +14,9 @@ use std::{alloc::Layout, mem, sync::atomic::AtomicUsize};
 
 use triomphe::{Arc, HeaderSlice, HeaderWithLength, ThinArc};
 
-use crate::{Allocative, Key, Visitor, impls::common::PTR_NAME};
+use crate::{Allocative, Key, Visit, Visitor, impls::common::PTR_NAME};
 
-impl<H: Allocative, T: Allocative + ?Sized> Allocative for HeaderSlice<H, T> {
+impl<H: Visit, T: Visit + ?Sized> Allocative for HeaderSlice<H, T> {
   fn visit<'a, 'b: 'a>(&self, visitor: &'a mut Visitor<'b>) {
     let mut visitor = visitor.enter_self(self);
     visitor.visit_field(Key::new("header"), &self.header);
@@ -25,7 +25,7 @@ impl<H: Allocative, T: Allocative + ?Sized> Allocative for HeaderSlice<H, T> {
   }
 }
 
-impl<H: Allocative> Allocative for HeaderWithLength<H> {
+impl<H: Visit> Allocative for HeaderWithLength<H> {
   fn visit<'a, 'b: 'a>(&self, visitor: &'a mut Visitor<'b>) {
     let mut visitor = visitor.enter_self(self);
     visitor.visit_field(Key::new("header"), &self.header);
@@ -41,7 +41,7 @@ struct ThinArcInnerRepr<H> {
   _len: usize,
 }
 
-impl<H: Allocative, T: Allocative> Allocative for ThinArc<H, T> {
+impl<H: Visit + 'static, T: Visit> Allocative for ThinArc<H, T> {
   fn visit<'a, 'b: 'a>(&self, visitor: &'a mut Visitor<'b>) {
     let mut visitor = visitor.enter_self_sized::<Self>();
     {
@@ -74,7 +74,7 @@ struct ArcInnerRepr {
   _counter: AtomicUsize,
 }
 
-impl<T: Allocative + ?Sized> Allocative for Arc<T> {
+impl<T: Visit + ?Sized> Allocative for Arc<T> {
   fn visit<'a, 'b: 'a>(&self, visitor: &'a mut Visitor<'b>) {
     let mut visitor = visitor.enter_self_sized::<Self>();
     {
@@ -101,7 +101,7 @@ impl<T: Allocative + ?Sized> Allocative for Arc<T> {
   }
 }
 
-impl<T: Allocative> Allocative for triomphe::UniqueArc<T> {
+impl<T: Visit> Allocative for triomphe::UniqueArc<T> {
   fn visit<'a, 'b: 'a>(&self, visitor: &'a mut Visitor<'b>) {
     let mut visitor = visitor.enter_self(self);
     let mut allocation = visitor.enter_unique(PTR_NAME, mem::size_of::<*const T>());

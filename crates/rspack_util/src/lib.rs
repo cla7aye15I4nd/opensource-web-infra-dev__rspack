@@ -30,9 +30,9 @@ pub use allocative;
 
 /// Profiling builds require dynamic objects to expose their owned memory.
 #[cfg(allocative)]
-pub trait MaybeAllocative: allocative::Allocative {}
+pub trait MaybeAllocative: allocative::Visit {}
 #[cfg(allocative)]
-impl<T: allocative::Allocative + ?Sized> MaybeAllocative for T {}
+impl<T: allocative::Visit + ?Sized> MaybeAllocative for T {}
 #[cfg(not(allocative))]
 pub trait MaybeAllocative {}
 #[cfg(not(allocative))]

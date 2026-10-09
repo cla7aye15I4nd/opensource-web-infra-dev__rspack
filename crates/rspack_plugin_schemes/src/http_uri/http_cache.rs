@@ -77,7 +77,6 @@ pub enum FetchResultType {
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct HttpCache {
   cache_location: Option<PathBuf>,
   lockfile_cache: LockfileCache,
@@ -551,8 +550,8 @@ fn compute_integrity(content: &[u8]) -> String {
 }
 
 #[cfg(allocative)]
-impl allocative::Allocative for dyn HttpClient {
-  fn visit<'a, 'b: 'a>(&self, visitor: &'a mut allocative::Visitor<'b>) {
+impl allocative::Visit for dyn HttpClient {
+  fn visit_memory<'a, 'b: 'a>(&self, visitor: &'a mut allocative::Visitor<'b>) {
     visitor.visit_opaque(self);
   }
 }

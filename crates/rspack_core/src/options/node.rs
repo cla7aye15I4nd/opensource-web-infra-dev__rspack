@@ -2,7 +2,6 @@
 use rspack_util::allocative;
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct NodeOption {
   pub dirname: NodeDirnameOption,
   pub global: NodeGlobalOption,

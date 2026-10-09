@@ -10,8 +10,6 @@ use rspack_core::{
   TemplateReplaceSource, create_exports_object_referenced,
   create_referenced_exports_by_referenced_specifiers,
 };
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use super::create_resource_identifier_for_esm_dependency;
 use crate::{
@@ -21,7 +19,6 @@ use crate::{
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ImportDependency {
   pub id: DependencyId,
   #[cacheable(with=AsPreset)]
@@ -184,7 +181,6 @@ impl AsContextDependency for ImportDependency {}
 
 #[cacheable]
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ImportDependencyTemplate;
 
 impl ImportDependencyTemplate {

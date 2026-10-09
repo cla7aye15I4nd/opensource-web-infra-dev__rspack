@@ -24,7 +24,6 @@ pub enum DeclarationId {
 
 #[cacheable]
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct DeclarationInfo {
   range: DependencyRange,
   prefix: String,
@@ -43,7 +42,6 @@ impl DeclarationInfo {
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ESMExportExpressionDependency {
   id: DependencyId,
   range: DependencyRange,
@@ -146,7 +144,6 @@ impl DependencyCodeGeneration for ESMExportExpressionDependency {
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ESMExportExpressionDependencyTemplate;
 
 impl ESMExportExpressionDependencyTemplate {

@@ -8,15 +8,12 @@ use rspack_core::{
   ModuleGraph, ModuleGraphCacheArtifact, SideEffectsStateArtifact, TSEnumValue, TemplateContext,
   TemplateReplaceSource, UsedName,
 };
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use crate::{Atom, ConstValue, is_export_inlined};
 
 // Create __rspack_context.d(__rspack_exports, {}) for each export.
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ESMExportSpecifierDependency {
   id: DependencyId,
   range: DependencyRange,
@@ -139,7 +136,6 @@ impl AsContextDependency for ESMExportSpecifierDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ESMExportSpecifierDependencyTemplate;
 
 impl ESMExportSpecifierDependencyTemplate {

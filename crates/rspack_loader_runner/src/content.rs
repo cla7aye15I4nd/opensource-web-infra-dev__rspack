@@ -16,8 +16,6 @@ use rspack_cacheable::{
 use rspack_error::{Error, Result, ToStringResultToRspackResultExt};
 use rspack_hash::{RspackHash, RspackHasher};
 use rspack_paths::{Utf8Path, Utf8PathBuf};
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rustc_hash::FxHashMap;
 
 use crate::{Scheme, get_scheme, parse_resource};
@@ -130,7 +128,6 @@ impl Debug for Content {
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ResourceData {
   /// Resource with absolute path, query and fragment
   resource: String,
@@ -318,7 +315,6 @@ impl ResourceData {
 /// package.json.sideEffects in tree shaking.
 #[cacheable]
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct DescriptionData {
   /// Path to package.json
   #[cacheable(with=As<PortablePath>)]

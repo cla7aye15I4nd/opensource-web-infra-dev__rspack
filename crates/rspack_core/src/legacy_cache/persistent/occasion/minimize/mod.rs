@@ -4,8 +4,6 @@ use rayon::prelude::*;
 use rspack_cacheable::{cacheable, with::AsPreset};
 use rspack_error::Result;
 use rspack_sources::BoxSource;
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rustc_hash::FxHashMap;
 
 use super::{super::storage::Storage, Occasion};
@@ -31,7 +29,6 @@ struct ExtractedCommentsEntry {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct MinimizeCacheKey(u64);
 
 impl MinimizeCacheKey {
@@ -51,7 +48,6 @@ impl MinimizeCacheKey {
 }
 
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct MinimizePersistentCache {
   entries: FxHashMap<MinimizeCacheKey, CachedMinimizeEntry>,
   /// Keys of entries that were added during this build and need to be persisted.
@@ -70,7 +66,6 @@ impl MinimizePersistentCache {
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct MinimizeOccasion {
   codec: Arc<CacheCodec>,
 }

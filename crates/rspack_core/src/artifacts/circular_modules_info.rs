@@ -7,6 +7,7 @@ use crate::{Compilation, ContextTypePrefix, DependencyType, ModuleGraph, ModuleI
 
 #[derive(Debug, Default)]
 #[cfg_attr(allocative, derive(allocative::Allocative))]
+#[cfg_attr(allocative, allocative(bound = "T: allocative::Visit + 'static"))]
 enum CollectState<T> {
   #[default]
   NoCollect,
@@ -15,7 +16,6 @@ enum CollectState<T> {
 }
 
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CircularModulesInfo {
   modules: CollectState<IdentifierSet>,
   cycle_paths: CollectState<Vec<Vec<ModuleIdentifier>>>,

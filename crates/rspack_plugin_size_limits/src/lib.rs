@@ -25,7 +25,6 @@ pub struct SizeLimitsPluginOptions {
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct SizeLimitsPlugin {
   options: SizeLimitsPluginOptions,
 }

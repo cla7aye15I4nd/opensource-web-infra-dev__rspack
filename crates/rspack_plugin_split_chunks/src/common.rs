@@ -121,7 +121,6 @@ pub fn create_regex_chunk_filter_from_str(re: RspackRegex) -> ChunkFilter {
 }
 
 #[derive(Debug, Default, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct SplitChunkSizes(pub(crate) FxHashMap<SourceType, f64>);
 
 impl SplitChunkSizes {
@@ -243,7 +242,6 @@ pub fn get_module_sizes<T: ParallelIterator<Item = ModuleIdentifier>>(
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct FallbackCacheGroup {
   #[debug(skip)]
   pub chunks_filter: ChunkFilter,

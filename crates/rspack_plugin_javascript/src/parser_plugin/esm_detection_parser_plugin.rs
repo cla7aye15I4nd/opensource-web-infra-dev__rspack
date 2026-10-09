@@ -2,8 +2,6 @@ use std::sync::Arc;
 
 use rspack_core::{BuildMetaExportsType, ExportsArgument, ModuleArgument, ModuleType};
 use rspack_util::SpanExt;
-#[cfg(allocative)]
-use rspack_util::allocative;
 use swc_experimental_ecma_ast::{
   AwaitExpr, CallExpr, ForOfStmt, GetSpan, Ident, ModuleItem, Program, Span, UnaryExpr,
 };
@@ -41,7 +39,6 @@ impl JavascriptParser<'_> {
 }
 
 #[derive(Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ESMDetectionParserPlugin;
 
 // nonHarmonyIdentifiers

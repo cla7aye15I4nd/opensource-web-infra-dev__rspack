@@ -172,7 +172,6 @@ impl From<Option<RspackRegex>> for ContextModulePattern {
 
 #[cacheable]
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ContextOptions {
   pub mode: ContextMode,
   pub recursive: bool,
@@ -245,7 +244,6 @@ pub fn context_identifier(compiler_context: &str, context: &str) -> Option<Strin
 
 #[cacheable]
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ContextModuleOptions {
   pub addon: String,
   #[cacheable(with=AsPreset)]
@@ -279,7 +277,6 @@ pub type ResolveContextModuleDependencies = Arc<
 #[impl_source_map_config]
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ContextModule {
   dependencies_block: DependenciesBlockData,
   identifier: Identifier,

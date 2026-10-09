@@ -85,7 +85,6 @@ pub(super) type Restrictions = Vec<Restriction>;
 
 #[cacheable]
 #[derive(Debug, Clone, Default, Hash, PartialEq, Eq)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Resolve {
   /// Tried detect file with this extension.
   pub extensions: Option<Extensions>,
@@ -154,7 +153,6 @@ pub struct Resolve {
 /// Derived from [tsconfig-paths-webpack-plugin](https://github.com/dividab/tsconfig-paths-webpack-plugin#options)
 #[cacheable]
 #[derive(Debug, Clone, Hash, PartialEq, Eq, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct TsconfigOptions {
   /// Allows you to specify where to find the TypeScript configuration file.
   /// You may provide
@@ -241,7 +239,6 @@ type DependencyCategoryStr = Cow<'static, str>;
 
 #[cacheable]
 #[derive(Debug, Clone, Default, Hash, PartialEq, Eq)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ByDependency(
   #[cacheable(with=AsMap<AsRefStr>)] FxLinkedHashMap<DependencyCategoryStr, Resolve>,
 );

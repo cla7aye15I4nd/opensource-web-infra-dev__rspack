@@ -2,8 +2,6 @@ use rspack_cacheable::{
   cacheable, cacheable_dyn,
   with::{AsCacheable, AsOption, AsVec},
 };
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::json_stringify;
 
 use super::AffectType;
@@ -17,7 +15,6 @@ use crate::{
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ContextElementDependency {
   pub id: DependencyId,
   pub weak: bool,

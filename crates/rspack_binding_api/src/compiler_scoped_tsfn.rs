@@ -171,7 +171,10 @@ fn format_js_function(env: sys::napi_env, napi_val: sys::napi_value) -> String {
 // Consumers own the TSFN slot; the compiler only weakly registers it for close/drop
 // cleanup. The last consumer can release its callback before the compiler closes.
 #[cfg_attr(allocative, derive(allocative::Allocative))]
-#[cfg_attr(allocative, allocative(bound = "T: 'static + JsValuesTupleIntoVec, R"))]
+#[cfg_attr(
+  allocative,
+  allocative(bound = "T: 'static + JsValuesTupleIntoVec, R: 'static")
+)]
 pub struct CompilerScopedTsFnHandle<T: 'static + JsValuesTupleIntoVec, R> {
   active_tsfn: SharedThreadsafeFunction<T, R>,
 }

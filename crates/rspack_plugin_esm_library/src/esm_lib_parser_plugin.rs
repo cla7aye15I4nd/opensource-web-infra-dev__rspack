@@ -7,7 +7,6 @@ use rspack_plugin_javascript::{
 
 use crate::dependency::ExternalBindingBailout;
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct EsmLibParserPlugin;
 
 #[rspack_plugin_javascript::implemented_javascript_parser_hooks]
@@ -59,6 +58,3 @@ impl<'p, 'a> JavascriptParserPlugin<'p, 'a> for EsmLibParserPlugin {
     None
   }
 }
-
-#[cfg(allocative)]
-use rspack_util::allocative;

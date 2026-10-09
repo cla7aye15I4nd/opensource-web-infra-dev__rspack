@@ -3,12 +3,9 @@ use rspack_core::{
   Compilation, RuntimeCodeTemplate, RuntimeGlobals, RuntimeModule, RuntimeModuleGenerateContext,
   RuntimeModuleStage, RuntimeTemplate, impl_runtime_module,
 };
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 #[impl_runtime_module]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AsyncWasmLoadingRuntimeModule {
   generate_load_binary_code: String,
   generate_before_load_binary_code: String,
@@ -50,7 +47,6 @@ impl AsyncWasmLoadingRuntimeModule {
 
 #[impl_runtime_module]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AsyncWasmCompileRuntimeModule {
   generate_load_binary_code: String,
   generate_before_load_binary_code: String,

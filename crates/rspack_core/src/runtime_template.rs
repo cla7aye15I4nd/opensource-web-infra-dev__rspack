@@ -33,7 +33,6 @@ use crate::{
   to_comment, to_normal_comment,
 };
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RuntimeTemplate {
   compiler_options: Arc<CompilerOptions>,
   render_mode: RuntimeTemplateRenderMode,
@@ -175,7 +174,6 @@ impl RuntimeTemplateRenderMode {
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct RuntimeGlobalsRenderMap {
   runtime_values: FxHashMap<RuntimeGlobals, String>,
 }
@@ -853,7 +851,6 @@ pub fn get_outgoing_async_modules(
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ModuleCodeTemplate {
   compiler_options: Arc<CompilerOptions>,
   runtime_globals_render_mode: RuntimeGlobalsRenderMode,

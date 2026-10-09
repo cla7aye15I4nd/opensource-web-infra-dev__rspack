@@ -36,7 +36,6 @@ pub type NormalModuleReplacerFn = Box<
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct NormalModuleReplacementPlugin {
   resource_reg_exp: RspackRegex,
   #[debug(skip)]

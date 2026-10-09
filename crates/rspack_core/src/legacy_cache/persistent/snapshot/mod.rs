@@ -1,6 +1,3 @@
-#[cfg(allocative)]
-use rspack_util::allocative;
-
 mod scope;
 mod strategy;
 
@@ -21,7 +18,6 @@ use crate::{FutureConsumer, SnapshotOptions, SnapshotStrategyOptions, cache::Cac
 /// Snapshot will generate `Strategy` for target file, and check the modification
 /// through the generated `Strategy`
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Snapshot {
   options: Arc<SnapshotOptions>,
   fs: Arc<dyn ReadableFileSystem>,

@@ -149,7 +149,6 @@ define_hook!(CompilationAfterProcessAssets: Series(compilation: &Compilation, di
 define_hook!(CompilationAfterSeal: Series(compilation: &Compilation),tracing=true);
 
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CompilationHooks {
   pub add_entry: CompilationAddEntryHook,
   pub build_module: CompilationBuildModuleHook,
@@ -193,7 +192,6 @@ pub struct CompilationHooks {
 }
 
 #[derive(Debug, Clone, Copy, Hash, Eq, PartialEq, Ord, PartialOrd)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CompilationId(pub u32);
 
 impl CompilationId {
@@ -214,7 +212,6 @@ static COMPILATION_ID: AtomicU32 = AtomicU32::new(0);
 /// due to the inability to parse the async closure syntax
 /// https://github.com/Boshen/cargo-shear/issues/143
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Compilation {
   /// get_compilation_hooks(compilation.id)
   id: CompilationId,
@@ -1321,7 +1318,6 @@ pub type CompilationAssets = HashMap<String, CompilationAsset>;
 
 #[cacheable]
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CompilationAsset {
   #[cacheable(with=AsOption<AsPreset>)]
   pub source: Option<BoxSource>,
@@ -1361,7 +1357,6 @@ impl CompilationAsset {
 
 #[cacheable]
 #[derive(Debug, Default, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AssetInfo {
   /// if the asset can be long term cached forever (contains a hash)
   pub immutable: Option<bool>,
@@ -1501,7 +1496,6 @@ impl AssetInfo {
 
 #[cacheable]
 #[derive(Debug, Default, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AssetInfoRelated {
   pub source_map: Option<String>,
 }
@@ -1552,7 +1546,6 @@ pub fn assign_depths<'a>(
 }
 
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RenderManifestEntry {
   pub source: BoxSource,
   pub filename: String,

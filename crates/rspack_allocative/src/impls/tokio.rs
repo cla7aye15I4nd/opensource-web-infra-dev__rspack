@@ -12,9 +12,9 @@
 
 use tokio::sync::{Mutex, RwLock};
 
-use crate::{Allocative, Key, Visitor};
+use crate::{Allocative, Key, Visit, Visitor};
 
-impl<T: Allocative + ?Sized> Allocative for RwLock<T> {
+impl<T: Visit + ?Sized> Allocative for RwLock<T> {
   fn visit<'a, 'b: 'a>(&self, visitor: &'a mut Visitor<'b>) {
     let mut visitor = visitor.enter_self(self);
     if let Ok(data) = self.try_read() {
@@ -26,7 +26,7 @@ impl<T: Allocative + ?Sized> Allocative for RwLock<T> {
   }
 }
 
-impl<T: Allocative + ?Sized> Allocative for Mutex<T> {
+impl<T: Visit + ?Sized> Allocative for Mutex<T> {
   fn visit<'a, 'b: 'a>(&self, visitor: &'a mut Visitor<'b>) {
     let mut visitor = visitor.enter_self(self);
     if let Ok(data) = self.try_lock() {
@@ -53,7 +53,7 @@ impl Allocative for tokio::sync::Notify {
     visitor.visit_opaque(self);
   }
 }
-impl<T: Allocative> Allocative for tokio::sync::OnceCell<T> {
+impl<T: Visit> Allocative for tokio::sync::OnceCell<T> {
   fn visit<'a, 'b: 'a>(&self, visitor: &'a mut Visitor<'b>) {
     let mut visitor = visitor.enter_self(self);
     if let Some(value) = self.get() {

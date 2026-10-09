@@ -22,8 +22,6 @@ use rspack_plugin_javascript::{
   BoxJavascriptParserPlugin, JavascriptModulesRender, JsPlugin, RenderSource,
   parser_and_generator::JavaScriptParserAndGenerator,
 };
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::node_path::NodePath;
 
 use crate::{
@@ -41,7 +39,6 @@ use crate::{
 };
 
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RslibPluginOptions {
   pub intercept_api_plugin: bool,
   pub force_node_shims: bool,
@@ -50,7 +47,6 @@ pub struct RslibPluginOptions {
 }
 
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct SwcEmitDtsOptions {
   pub root_dir: String,
   pub declaration_dir: String,
@@ -167,7 +163,6 @@ pub struct ProgressPluginStateInfo {
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RslibPlugin {
   options: RslibPluginOptions,
 }

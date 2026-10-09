@@ -27,6 +27,7 @@ fn is_logic_op(op: BinaryOp) -> bool {
 
 const PLUGIN_BITMASK_BITS: usize = u64::BITS as usize;
 
+// Keep typed array traversal: the pinned reflection compiler does not normalize const lengths.
 #[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct JavaScriptParserPluginDrive {
   plugins: Vec<BoxJavascriptParserPlugin>,

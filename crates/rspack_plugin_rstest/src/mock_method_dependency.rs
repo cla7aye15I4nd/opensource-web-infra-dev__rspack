@@ -11,7 +11,6 @@ use rspack_util::json_stringify_str;
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct MockMethodDependency {
   call_expr_range: DependencyRange,
   callee_range: DependencyRange,
@@ -113,7 +112,6 @@ impl AsContextDependency for MockMethodDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct MockMethodDependencyTemplate;
 
 impl MockMethodDependencyTemplate {

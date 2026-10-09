@@ -68,7 +68,6 @@ impl SymbolRef {
 }
 
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ExternalInterop {
   pub module: ModuleIdentifier,
   pub from_module: IdentifierSet,
@@ -262,7 +261,6 @@ pub enum RawImportSource {
 }
 
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ChunkLinkContext {
   pub chunk: ChunkUkey,
 

@@ -85,7 +85,6 @@ fn handle_dependency_globals(
 
 #[plugin]
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RuntimePlugin;
 
 impl RuntimePlugin {

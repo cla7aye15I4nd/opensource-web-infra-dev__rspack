@@ -48,19 +48,18 @@ pub enum Operand {
 
 // Name that will be found in the execution context.
 #[derive(PartialEq, Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Object {
   pub name: String,
 }
 
 #[derive(PartialEq, Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Tokens {
   pub ops: Vec<Op>,
 }
 
 #[derive(PartialEq, Debug)]
 #[cfg_attr(allocative, derive(allocative::Allocative))]
+#[cfg_attr(allocative, allocative(bound = "T: allocative::Visit + 'static"))]
 pub enum Action<T> {
   Show(Show<T>),
   If(T),    // If condition
@@ -98,6 +97,7 @@ impl Action<Tokens> {
 
 #[derive(PartialEq, Debug)]
 #[cfg_attr(allocative, derive(allocative::Allocative))]
+#[cfg_attr(allocative, allocative(bound = "T: allocative::Visit + 'static"))]
 pub enum Show<T> {
   Html { start: usize, end: usize }, // [start, end) of the original template.
   ExprEscaped(T),
@@ -105,7 +105,6 @@ pub enum Show<T> {
 }
 
 #[derive(PartialEq, Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Parser {
   pub parse_tree: Vec<Action<Tokens>>,
 }

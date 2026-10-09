@@ -30,7 +30,6 @@ static ABSOLUTE_REQUEST: LazyLock<Regex> =
   LazyLock::new(|| Regex::new(r"^(\/|[A-Za-z]:\\|\\\\)").expect("Invalid regex"));
 
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ProvideOptions {
   pub share_key: String,
   pub share_scope: ShareScope,
@@ -43,7 +42,6 @@ pub struct ProvideOptions {
 }
 
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct VersionedProvideOptions {
   pub share_key: String,
   pub share_scope: ShareScope,
@@ -90,7 +88,6 @@ impl fmt::Display for ProvideVersion {
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ProvideSharedPlugin {
   provides: Vec<(String, ProvideOptions)>,
   resolved_provide_map: RwLock<FxHashMap<String, VersionedProvideOptions>>,

@@ -5,14 +5,11 @@ use rspack_core::{
   ExportsInfoArtifact, ModuleDependency, ModuleGraph, ModuleGraphCacheArtifact, ReferencedExport,
   ResourceIdentifier, RuntimeSpec, TemplateContext, TemplateReplaceSource,
 };
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use super::create_resource_identifier_for_contextual_commonjs_dependency;
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RequireResolveDependency {
   pub id: DependencyId,
   pub request: String,
@@ -131,7 +128,6 @@ impl AsContextDependency for RequireResolveDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RequireResolveDependencyTemplate;
 
 impl RequireResolveDependencyTemplate {

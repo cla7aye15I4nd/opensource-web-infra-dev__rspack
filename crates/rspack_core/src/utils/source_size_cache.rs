@@ -19,8 +19,9 @@ use crate::SourceType;
 const SOURCE_SIZE_CACHE_SLOTS: usize = 13;
 const SOURCE_SIZE_UNSET: u64 = u64::MAX;
 
-#[derive(Debug)]
+// Keep typed array traversal: the pinned reflection compiler does not normalize const lengths.
 #[cfg_attr(allocative, derive(allocative::Allocative))]
+#[derive(Debug)]
 pub struct SourceSizeCache {
   // Fixed slots for builtin SourceType variants to avoid hashing/locking overhead.
   builtins: [AtomicU64; SOURCE_SIZE_CACHE_SLOTS],

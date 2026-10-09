@@ -25,7 +25,6 @@ pub enum CssIcssSymbolValue {
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CssIcssSymbolDependency {
   id: DependencyId,
   value: CssIcssSymbolValue,
@@ -77,7 +76,6 @@ impl AsModuleDependency for CssIcssSymbolDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CssIcssSymbolDependencyTemplate;
 
 impl CssIcssSymbolDependencyTemplate {

@@ -327,7 +327,6 @@ pub type ModuleLayer = String;
 pub(crate) type SharedPluginDriver = Arc<PluginDriver>;
 
 #[derive(Debug, Default, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ChunkByUkey {
   inner: FxHashMap<ChunkUkey, Chunk>,
 }
@@ -412,7 +411,6 @@ impl ChunkByUkey {
 }
 
 #[derive(Debug, Default, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ChunkGroupByUkey {
   inner: FxHashMap<ChunkGroupUkey, ChunkGroup>,
 }

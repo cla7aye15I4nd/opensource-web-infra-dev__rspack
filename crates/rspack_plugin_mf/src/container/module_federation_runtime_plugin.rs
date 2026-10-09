@@ -24,7 +24,6 @@ use super::{
 };
 
 #[derive(Debug, Default, Deserialize, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ModuleFederationRuntimePluginOptions {
   pub entry_runtime: Option<String>,
   #[serde(default)]
@@ -33,7 +32,6 @@ pub struct ModuleFederationRuntimePluginOptions {
 
 #[cacheable]
 #[derive(Debug, Default, Deserialize, Clone, Hash, PartialEq, Eq)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ModuleFederationRuntimeExperimentsOptions {
   #[serde(default)]
   pub async_startup: bool,
@@ -41,7 +39,6 @@ pub struct ModuleFederationRuntimeExperimentsOptions {
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ModuleFederationRuntimePlugin {
   options: ModuleFederationRuntimePluginOptions,
 }
@@ -163,6 +160,3 @@ impl Plugin for ModuleFederationRuntimePlugin {
     Ok(())
   }
 }
-
-#[cfg(allocative)]
-use rspack_util::allocative;

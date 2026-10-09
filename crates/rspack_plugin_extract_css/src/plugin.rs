@@ -76,7 +76,6 @@ struct CssOrderConflicts {
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct PluginCssExtract {
   pub(crate) options: Arc<CssExtractOptions>,
 }
@@ -90,7 +89,6 @@ impl PartialEq for PluginCssExtractInner {
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CssExtractOptions {
   pub filename: Filename,
   pub chunk_filename: Filename,

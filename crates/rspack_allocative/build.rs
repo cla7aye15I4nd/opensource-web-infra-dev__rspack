@@ -11,6 +11,7 @@
 fn main() {
   println!("cargo:rustc-check-cfg=cfg(rust_nightly)");
   println!("cargo:rustc-check-cfg=cfg(rust_unstable_lazy_get)");
+  println!("cargo:rustc-check-cfg=cfg(rust_allocative_reflection)");
   rust_nightly();
 }
 
@@ -45,6 +46,14 @@ fn rust_nightly() {
       .expect("rustc version contains a minor version");
     if minor < 94 {
       println!("cargo:rustc-cfg=rust_unstable_lazy_get");
+    }
+    if minor >= 97 {
+      println!("cargo:rustc-cfg=rust_allocative_reflection");
+    } else {
+      assert!(
+        std::env::var_os("CARGO_CFG_ALLOCATIVE").is_none(),
+        "allocative snapshots require the repository's pinned nightly toolchain"
+      );
     }
   }
 }

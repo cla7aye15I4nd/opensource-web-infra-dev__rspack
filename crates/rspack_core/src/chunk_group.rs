@@ -17,7 +17,6 @@ use crate::{
 };
 
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct OriginRecord {
   pub module: Option<ModuleIdentifier>,
   pub loc: Option<DependencyLocation>,
@@ -25,7 +24,6 @@ pub struct OriginRecord {
 }
 
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ChunkGroup {
   pub ukey: ChunkGroupUkey,
   pub kind: ChunkGroupKind,
@@ -426,7 +424,6 @@ impl Display for EntryRuntime {
 // pub type EntryRuntime = String;
 #[cacheable]
 #[derive(Debug, Default, Clone, Hash, PartialEq, Eq, rspack_hash::RspackHash)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct EntryOptions {
   pub name: Option<String>,
   pub runtime: Option<EntryRuntime>,
@@ -500,7 +497,6 @@ impl Display for ChunkGroupOrderKey {
 
 #[cacheable]
 #[derive(Debug, Default, Clone, PartialEq, Eq, PartialOrd, Ord, rspack_hash::RspackHash)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ChunkGroupOptions {
   pub name: Option<String>,
   pub preload_order: Option<i32>,

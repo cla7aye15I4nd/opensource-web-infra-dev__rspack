@@ -18,8 +18,6 @@ use rspack_core::{
 };
 use rspack_error::Diagnostic;
 use rspack_hash::{RspackHash, RspackHasher};
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::json_stringify_str;
 
 use super::{
@@ -37,7 +35,6 @@ use crate::{
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ESMImportSpecifierDependency {
   id: DependencyId,
   #[cacheable(with=AsPreset)]
@@ -422,7 +419,6 @@ impl DependencyCodeGeneration for ESMImportSpecifierDependency {
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ESMImportSpecifierDependencyTemplate;
 
 impl ESMImportSpecifierDependencyTemplate {
@@ -767,7 +763,6 @@ impl DependencyTemplate for ESMImportSpecifierDependencyTemplate {
   }
 }
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct ESMImportSpecifierDependencyCondition;
 
 fn connection_active_for_esm_import_specifier(

@@ -7,8 +7,6 @@ use rspack_core::{
 };
 use rspack_error::ToStringResultToRspackResultExt;
 use rspack_hook::{plugin, plugin_hook};
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 pub type CleanupRevokedModulesTsFn = ThreadsafeFunction<
   External<(CompilerId, Vec<ModuleIdentifier>)>,
@@ -22,7 +20,6 @@ pub type CleanupRevokedModulesTsFn = ThreadsafeFunction<
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct JsCleanupPlugin {
   #[debug(skip)]
   cleanup_revoked_modules: CleanupRevokedModulesTsFn,

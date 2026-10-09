@@ -80,7 +80,6 @@ impl FromStr for HtmlScriptLoading {
 type TemplateParameterTsfn =
   Box<dyn for<'a> Fn(String) -> BoxFuture<'static, Result<String>> + Sync + Send>;
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct TemplateParameterFn {
   pub inner: TemplateParameterTsfn,
 }
@@ -101,7 +100,6 @@ pub enum TemplateParameters {
 
 #[derive(Serialize, Debug)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct HtmlRspackPluginBaseOptions {
   pub href: Option<String>,
   pub target: Option<String>,
@@ -110,7 +108,6 @@ pub struct HtmlRspackPluginBaseOptions {
 type TemplateRenderTsfn =
   Box<dyn for<'a> Fn(String) -> BoxFuture<'static, Result<String>> + Sync + Send>;
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct TemplateRenderFn {
   pub inner: TemplateRenderTsfn,
 }
@@ -149,7 +146,6 @@ impl FromStr for HtmlChunkSortMode {
 
 #[derive(Serialize, Debug)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct HtmlRspackPluginOptions {
   /// emitted file name in output path
   #[serde(default = "default_filename")]

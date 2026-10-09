@@ -8,7 +8,6 @@ use crate::{Result, Storage};
 /// Mainly used for:
 /// - Unit testing
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct MemoryStorage {
   /// Internal storage structure: scope -> (key -> value)
   #[allow(clippy::type_complexity)]

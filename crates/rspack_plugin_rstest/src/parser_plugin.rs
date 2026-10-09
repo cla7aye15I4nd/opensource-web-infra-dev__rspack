@@ -48,7 +48,6 @@ enum ModulePathType {
 }
 
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RstestParserPluginOptions {
   pub module_path_name: bool,
   pub hoist_mock_module: bool,
@@ -92,7 +91,6 @@ impl Default for RstestParserPluginOptions {
 }
 
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RstestParserPlugin {
   options: RstestParserPluginOptions,
 }
@@ -1322,6 +1320,3 @@ impl<'p, 'a> JavascriptParserPlugin<'p, 'a> for RstestParserPlugin {
     Some(true)
   }
 }
-
-#[cfg(allocative)]
-use rspack_util::allocative;

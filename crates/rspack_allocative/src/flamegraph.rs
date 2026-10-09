@@ -18,7 +18,7 @@ use std::{
 use rustc_hash::{FxHashMap, FxHashSet};
 
 use crate::{
-  Allocative,
+  Visit,
   global_root::roots,
   key::Key,
   visitor::{NodeKind, Visitor, VisitorImpl},
@@ -370,9 +370,9 @@ impl FlameGraphBuilder {
   }
 
   /// Collect tree sizes starting from given root.
-  pub fn visit_root(&mut self, root: &dyn Allocative) {
+  pub fn visit_root<T: Visit + ?Sized>(&mut self, root: &T) {
     let mut visitor = self.root_visitor();
-    root.visit(&mut visitor);
+    root.visit_memory(&mut visitor);
     visitor.exit();
   }
 

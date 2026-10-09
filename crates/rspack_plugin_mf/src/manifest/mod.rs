@@ -39,7 +39,6 @@ use crate::container::{container_entry_module::ContainerEntryModule, remote_modu
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ModuleFederationManifestPlugin {
   options: ModuleFederationManifestPluginOptions,
 }
@@ -794,6 +793,3 @@ impl Plugin for ModuleFederationManifestPlugin {
     Ok(())
   }
 }
-
-#[cfg(allocative)]
-use rspack_util::allocative;

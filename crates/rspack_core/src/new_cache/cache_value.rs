@@ -5,8 +5,6 @@ use rspack_cacheable::{
   Deserializer, Serializer, Validator, cacheable,
 };
 use rspack_error::Result;
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use super::etag::Etag;
 use crate::cache::CacheCodec;
@@ -15,7 +13,6 @@ use crate::cache::CacheCodec;
 ///
 /// Cloning this wrapper only increments an `Arc`; the cached object itself is
 /// never cloned.
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CacheValue<T>(Arc<T>);
 
 impl<T> CacheValue<T> {
@@ -83,7 +80,6 @@ pub(super) type CacheValueDecoder =
 
 /// Type-erased value used only inside the shared cache layers.
 #[derive(Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub(super) struct ErasedCacheValue(Arc<ErasedValue>);
 
 #[cfg(allocative)]
@@ -121,7 +117,6 @@ struct StoredCacheEntry<T> {
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub(super) struct CacheEntry {
   etag: Option<Etag>,
   value: ErasedCacheValue,

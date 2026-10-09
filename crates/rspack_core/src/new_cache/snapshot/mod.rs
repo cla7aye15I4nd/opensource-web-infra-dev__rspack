@@ -19,7 +19,6 @@ pub use self::file_system_info::{FileSystemInfo, SnapshotValidationResult};
 /// https://github.com/webpack/webpack/blob/ce97d583e1cd8f3e47b70737de72e91b567a8497/lib/FileSystemInfo.js#L75-L132
 #[cacheable]
 #[derive(Debug, Clone, PartialEq, Eq)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct FileSystemInfoEntry {
   safe_time: u64,
   timestamp: Option<u64>,
@@ -35,7 +34,6 @@ pub enum FileHash {
 
 #[cacheable]
 #[derive(Debug, Clone, PartialEq, Eq)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct TimestampAndHash {
   safe_time: u64,
   timestamp: Option<u64>,
@@ -44,7 +42,6 @@ pub struct TimestampAndHash {
 
 #[cacheable]
 #[derive(Debug, Clone, PartialEq, Eq)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ContextFileSystemInfoEntry {
   safe_time: u64,
   timestamp_hash: RspackHashDigest,
@@ -52,7 +49,6 @@ pub struct ContextFileSystemInfoEntry {
 
 #[cacheable]
 #[derive(Debug, Clone, PartialEq, Eq)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ContextTimestampAndHash {
   safe_time: u64,
   timestamp_hash: RspackHashDigest,
@@ -70,7 +66,6 @@ pub struct ContextTimestampAndHash {
 /// https://github.com/webpack/webpack/blob/ce97d583e1cd8f3e47b70737de72e91b567a8497/lib/FileSystemInfo.js#L303-L665
 #[cacheable]
 #[derive(Debug, Default, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Snapshot {
   pub(super) start_time: Option<u64>,
   pub(super) file_timestamps: Option<InternedPathMap<Option<FileSystemInfoEntry>>>,

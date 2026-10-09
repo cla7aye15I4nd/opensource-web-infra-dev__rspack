@@ -17,7 +17,6 @@ use crate::{
   IoResultToFsResultExt, ReadStream, ReadableFileSystem, Result, WritableFileSystem, WriteStream,
 };
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct NativeFileSystemOptions {
   // enable Yarn PnP feature
   pnp: bool,

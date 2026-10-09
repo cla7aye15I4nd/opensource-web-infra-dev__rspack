@@ -12,12 +12,14 @@
 
 use smallvec::{Array, SmallVec};
 
-use crate::{allocative_trait::Allocative, impls::common::PTR_NAME, key::Key, visitor::Visitor};
+use crate::{
+  Visit, allocative_trait::Allocative, impls::common::PTR_NAME, key::Key, visitor::Visitor,
+};
 
 impl<A> Allocative for SmallVec<A>
 where
   A: Array,
-  A::Item: Allocative,
+  A::Item: Visit,
 {
   fn visit<'a, 'b: 'a>(&self, visitor: &'a mut Visitor<'b>) {
     let mut visitor = visitor.enter_self_sized::<Self>();

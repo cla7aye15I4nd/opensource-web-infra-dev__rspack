@@ -8,8 +8,6 @@ use rspack_collections::IdentifierMap;
 use rspack_hash::{HashDigest, HashFunction, HashSalt, RspackHash, RspackHashDigest, RspackHasher};
 use rspack_intern::{Atom, AtomSet};
 use rspack_sources::BoxSource;
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::ext::{AsAny, IntoAny};
 use rustc_hash::FxHashMap as HashMap;
 
@@ -22,7 +20,6 @@ use crate::{
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CodeGenerationDataUrl {
   inner: String,
 }
@@ -40,17 +37,14 @@ impl CodeGenerationDataUrl {
 // For performance, mark the js modules containing AUTO_PUBLIC_PATH_PLACEHOLDER
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CodeGenerationPublicPathAutoReplace(pub bool);
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct URLStaticMode;
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CodeGenerationDataFilename {
   filename: String,
   public_path: String,
@@ -75,7 +69,6 @@ impl CodeGenerationDataFilename {
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CodeGenerationDataAssetInfo {
   inner: AssetInfo,
 }
@@ -93,7 +86,6 @@ impl CodeGenerationDataAssetInfo {
 #[cacheable]
 /// Describes a chunk-level default import referenced by a non-concatenated asset module.
 #[derive(Clone, Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CodeGenerationDataPreservedAssetImport {
   request: String,
   #[cacheable(with=AsPreset)]
@@ -123,7 +115,6 @@ impl RspackHash for CodeGenerationDataPreservedAssetImport {
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CodeGenerationDataTopLevelDeclarations {
   #[cacheable(with=AsVec<AsPreset>)]
   inner: AtomSet,
@@ -148,7 +139,6 @@ pub trait CodeGenerationDataItem:
 
 #[cacheable]
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CodeGenerationDataChunkInitFragments {
   inner: ChunkInitFragments,
 }
@@ -212,7 +202,6 @@ impl CodeGenerationDataItem for CodeGenerationDataConcatenationScopeOutput {}
 
 #[cacheable]
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CodeGenerationData {
   inner: Vec<Box<dyn CodeGenerationDataItem>>,
 }
@@ -267,7 +256,6 @@ impl CodeGenerationData {
 
 #[cacheable]
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct CodeGenerationResultInner {
   #[cacheable(with=AsInner<AsMap<AsCacheable, AsPreset>>)]
   sources: BindingCell<HashMap<SourceType, BoxSource>>,
@@ -280,7 +268,6 @@ struct CodeGenerationResultInner {
 /// Immutable code generation output constructed by [`CodeGenerationResultBuilder`].
 #[cacheable]
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CodeGenerationResult {
   value: Arc<CodeGenerationResultInner>,
 }
@@ -396,7 +383,6 @@ impl CodeGenerationResultBuilder {
 }
 
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CodeGenerationResults {
   map: IdentifierMap<RuntimeSpecMap<BindingCell<CodeGenerationResult>>>,
 }

@@ -4,12 +4,9 @@ use rspack_core::{
   DependencyTemplateType, RuntimeGlobals, RuntimeSpec, TemplateContext, TemplateReplaceSource,
 };
 use rspack_hash::{RspackHash, RspackHasher};
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 #[cacheable]
 #[derive(Debug, RspackHash)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RequireMainDependency {
   pub range: DependencyRange,
 }
@@ -38,7 +35,6 @@ impl DependencyCodeGeneration for RequireMainDependency {
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RequireMainDependencyTemplate;
 
 impl RequireMainDependencyTemplate {

@@ -1,8 +1,6 @@
 use std::{ops::Deref, sync::Arc, time::Duration};
 
 use rspack_paths::InternedPathSet;
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use super::{
   CacheFacade, CacheKey, CacheValue, Etag, IdleFileCache, MemoryCache, MemoryCacheGetResult,
@@ -11,7 +9,6 @@ use super::{
 
 /// Storage shared by all compiler-scoped cache views.
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct CacheStorage {
   memory_cache: Option<MemoryCache>,
   idle_file_cache: Option<IdleFileCache>,
@@ -23,7 +20,6 @@ struct CacheStorage {
 /// an unknown key falls through to the filesystem cache. Filesystem results,
 /// including misses, are recorded in memory for subsequent reads.
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Cache {
   storage: Option<CacheStorage>,
 }
@@ -145,7 +141,6 @@ impl Cache {
 
 /// A compiler's view of shared cache storage.
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CompilerCache {
   cache: Arc<Cache>,
   compiler_path: Arc<str>,

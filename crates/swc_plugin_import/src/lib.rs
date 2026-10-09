@@ -134,7 +134,6 @@ impl Debug for CustomTransform {
 }
 
 #[derive(Debug, Deserialize, Default, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ImportOptions {
   pub library_name: String,
   pub library_directory: Option<String>, // default to `lib`

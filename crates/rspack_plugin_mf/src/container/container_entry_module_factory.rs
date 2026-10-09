@@ -4,8 +4,6 @@ use rspack_core::{
   ModuleFactoryResult,
 };
 use rspack_error::Result;
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use super::{
   container_entry_dependency::ContainerEntryDependency,
@@ -13,7 +11,6 @@ use super::{
 };
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ContainerEntryModuleFactory;
 
 #[async_trait]

@@ -23,7 +23,6 @@ use tokio::sync::OnceCell;
 use crate::{Compilation, Filename, Module, ModuleType, PublicPath, Resolve};
 
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ParserOptionsMap(HashMap<String, ParserOptions>);
 
 impl Deref for ParserOptionsMap {
@@ -236,7 +235,6 @@ impl From<bool> for JavascriptParserCommonjsExportsOption {
 
 #[cacheable]
 #[derive(Debug, Clone, MergeFrom)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct JavascriptParserCommonjsOptions {
   pub exports: JavascriptParserCommonjsExportsOption,
 }
@@ -358,7 +356,6 @@ impl RspackHash for JavascriptParserWorkerUrl {
 
 #[cacheable]
 #[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ImportMetaKnownProperties(u32);
 
 macro_rules! define_import_meta_known_properties {
@@ -436,7 +433,6 @@ impl MergeFrom for ImportMetaKnownProperties {
 
 #[cacheable]
 #[derive(Debug, Clone, MergeFrom, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct JavascriptParserWorkerOptions {
   pub alias: Option<Vec<String>>,
   pub url: Option<JavascriptParserWorkerUrl>,
@@ -453,7 +449,6 @@ impl JavascriptParserWorkerOptions {
 
 #[cacheable]
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ImportMetaOptions {
   enabled_known_properties: ImportMetaKnownProperties,
   properties: HashMap<String, bool>,
@@ -516,7 +511,6 @@ impl ImportMeta {
 
 #[cacheable]
 #[derive(Debug, Clone, MergeFrom, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct JavascriptParserOptions {
   pub dynamic_import_mode: Option<DynamicImportMode>,
   pub dynamic_import_preload: Option<JavascriptParserOrder>,
@@ -586,7 +580,6 @@ impl MergeFrom for JavascriptParserCreateRequire {
 
 #[cacheable]
 #[derive(Debug, Clone, MergeFrom)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AssetParserOptions {
   pub data_url_condition: Option<AssetParserDataUrl>,
 }
@@ -601,7 +594,6 @@ pub enum AssetParserDataUrl {
 
 #[cacheable]
 #[derive(Debug, Clone, MergeFrom)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AssetParserDataUrlOptions {
   pub max_size: Option<f64>,
 }
@@ -657,7 +649,6 @@ impl MergeFrom for CssParserImport {
 
 #[cacheable]
 #[derive(Debug, Clone, MergeFrom)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CssParserOptions {
   pub export_type: Option<CssExportType>,
   pub named_exports: Option<bool>,
@@ -680,7 +671,6 @@ impl Default for CssParserOptions {
 
 #[cacheable]
 #[derive(Debug, Clone, MergeFrom)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CssModuleParserOptions {
   pub export_type: Option<CssExportType>,
   pub named_exports: Option<bool>,
@@ -715,7 +705,6 @@ impl Default for CssModuleParserOptions {
 
 #[cacheable]
 #[derive(Debug, Clone, MergeFrom)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CssAutoOrModuleParserOptions {
   pub export_type: Option<CssExportType>,
   pub named_exports: Option<bool>,
@@ -865,14 +854,12 @@ impl MergeFrom for ParseOption {
 
 #[cacheable]
 #[derive(Debug, Clone, MergeFrom)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct JsonParserOptions {
   pub exports_depth: Option<u32>,
   pub parse: ParseOption,
 }
 
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct GeneratorOptionsMap(HashMap<String, GeneratorOptions>);
 
 impl Deref for GeneratorOptionsMap {
@@ -967,7 +954,6 @@ impl GeneratorOptions {
 
 #[cacheable]
 #[derive(Debug, Clone, MergeFrom)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AssetInlineGeneratorOptions {
   pub data_url: Option<AssetGeneratorDataUrl>,
   pub binary: Option<bool>,
@@ -984,7 +970,6 @@ impl From<AssetGeneratorOptions> for AssetInlineGeneratorOptions {
 
 #[cacheable]
 #[derive(Debug, Clone, Copy, MergeFrom)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct AssetGeneratorImportModeFlags(u8);
 bitflags! {
   impl AssetGeneratorImportModeFlags: u8 {
@@ -995,7 +980,6 @@ bitflags! {
 
 #[cacheable]
 #[derive(Debug, Clone, Copy, MergeFrom)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AssetGeneratorImportMode(AssetGeneratorImportModeFlags);
 
 impl AssetGeneratorImportMode {
@@ -1022,7 +1006,6 @@ impl Default for AssetGeneratorImportMode {
 
 #[cacheable]
 #[derive(Debug, Clone, Default, MergeFrom)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AssetResourceGeneratorOptions {
   pub emit: Option<bool>,
   pub filename: Option<Filename>,
@@ -1047,7 +1030,6 @@ impl From<AssetGeneratorOptions> for AssetResourceGeneratorOptions {
 
 #[cacheable]
 #[derive(Debug, Clone, Default, MergeFrom)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AssetGeneratorOptions {
   pub emit: Option<bool>,
   pub filename: Option<Filename>,
@@ -1105,7 +1087,6 @@ impl MergeFrom for AssetGeneratorDataUrl {
 
 #[cacheable]
 #[derive(Debug, Clone, MergeFrom)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AssetGeneratorDataUrlOptions {
   pub encoding: Option<DataUrlEncoding>,
   pub mimetype: Option<String>,
@@ -1167,7 +1148,6 @@ impl From<String> for DataUrlEncoding {
 
 #[cacheable]
 #[derive(Debug, Clone, MergeFrom)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CssGeneratorOptions {
   pub exports_only: Option<bool>,
   pub es_module: Option<bool>,
@@ -1175,7 +1155,6 @@ pub struct CssGeneratorOptions {
 
 #[cacheable]
 #[derive(Default, Debug, Clone, MergeFrom)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CssModuleGeneratorOptions {
   pub exports_convention: Option<CssExportsConvention>,
   pub exports_only: Option<bool>,
@@ -1213,14 +1192,12 @@ impl From<&CssGeneratorOptions> for CssModuleGeneratorOptions {
 
 #[cacheable]
 #[derive(Default, Debug, Clone, MergeFrom)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct JsonGeneratorOptions {
   pub json_parse: Option<bool>,
 }
 
 #[cacheable]
 #[derive(Debug, Clone, MergeFrom)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct LocalIdentName {
   pub template: Filename,
 }
@@ -1243,7 +1220,6 @@ impl From<&str> for LocalIdentName {
 
 #[cacheable]
 #[derive(Debug, Clone, Copy)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct ExportsConventionFlags(u8);
 bitflags! {
   impl ExportsConventionFlags: u8 {
@@ -1261,7 +1237,6 @@ impl MergeFrom for ExportsConventionFlags {
 
 #[cacheable]
 #[derive(Debug, Clone, Copy, MergeFrom)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CssExportsConvention(ExportsConventionFlags);
 
 impl CssExportsConvention {
@@ -1481,7 +1456,6 @@ impl RuleSetCondition {
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RuleSetConditionWithEmpty {
   condition: RuleSetCondition,
   match_when_empty: OnceCell<bool>,
@@ -1525,7 +1499,6 @@ impl From<RuleSetCondition> for RuleSetConditionWithEmpty {
   }
 }
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RuleSetLogicalConditions {
   pub and: Option<Vec<RuleSetCondition>>,
   pub or: Option<Vec<RuleSetCondition>>,
@@ -1727,7 +1700,6 @@ pub struct FuncUseCtx {
 }
 
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ModuleRuleUseLoader {
   /// Loader identifier with query and fragments
   /// Loader ident or query will be appended if it exists.
@@ -1745,7 +1717,6 @@ pub type FnUse =
   Box<dyn Fn(FuncUseCtx) -> BoxFuture<'static, Result<Vec<ModuleRuleUseLoader>>> + Sync + Send>;
 
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ModuleRule {
   /// A conditional match matching an absolute path + query + fragment.
   /// Note:
@@ -1780,7 +1751,6 @@ pub const MODULE_RULE_ID_UNASSIGNED: ModuleRuleId = ModuleRuleId::MAX;
 pub type ModuleRuleIds = SmallVec<[ModuleRuleId; 4]>;
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ModuleRuleEffect {
   pub id: ModuleRuleId,
   pub side_effects: Option<bool>,
@@ -1900,7 +1870,6 @@ pub enum ModuleRuleEnforce {
 // Add more fields to this struct should result in adding new fields to options builder.
 // `impl From<ModuleOptions> for ModuleOptionsBuilder` should be updated.
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ModuleOptions {
   pub rules: Vec<ModuleRule>,
   pub parser: Option<ParserOptionsMap>,

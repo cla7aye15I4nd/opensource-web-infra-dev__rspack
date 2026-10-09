@@ -98,7 +98,6 @@ impl From<&str> for MangleExportsOption {
 // Add more fields to this struct should result in adding new fields to options builder.
 // `impl From<Optimization> for OptimizationBuilder` should be updated.
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Optimization {
   pub side_effects: SideEffectOption,
   pub provided_exports: bool,

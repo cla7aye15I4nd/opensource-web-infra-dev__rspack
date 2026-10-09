@@ -150,7 +150,6 @@ impl BackgroundJob {
 
 /// Runs filesystem cache operations in one persistent background job.
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct IdleFileCache {
   strategy: Arc<FileCacheStrategy>,
   logger: Arc<InfrastructureLogger>,

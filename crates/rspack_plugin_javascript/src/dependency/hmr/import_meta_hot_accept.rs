@@ -4,14 +4,11 @@ use rspack_core::{
   DependencyRange, DependencyTemplate, DependencyTemplateType, DependencyType, ModuleDependency,
   TemplateContext, TemplateReplaceSource,
 };
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use crate::Atom;
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ImportMetaHotAcceptDependency {
   id: DependencyId,
   #[cacheable(with=AsPreset)]
@@ -78,7 +75,6 @@ impl AsContextDependency for ImportMetaHotAcceptDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ImportMetaHotAcceptDependencyTemplate;
 
 impl ImportMetaHotAcceptDependencyTemplate {

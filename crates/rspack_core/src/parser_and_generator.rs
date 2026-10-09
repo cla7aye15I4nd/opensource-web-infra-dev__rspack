@@ -10,8 +10,6 @@ use rspack_hash::RspackHashDigest;
 use rspack_intern::Atom;
 use rspack_loader_runner::{AdditionalData, ParseMeta, ParseMetaValue, ResourceData};
 use rspack_sources::BoxSource;
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::{ext::AsAny, source_map::SourceMapKind};
 use rustc_hash::{FxHashMap, FxHashSet};
 
@@ -49,7 +47,6 @@ pub struct ParseContext<'a> {
 
 #[cacheable]
 #[derive(Debug, Default, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CollectedTypeScriptInfo {
   #[cacheable(with=AsVec<AsPreset>)]
   pub type_exports: FxHashSet<Atom>,
@@ -72,7 +69,6 @@ pub const COLLECTED_TYPESCRIPT_INFO_PARSE_META_KEY: &str = "rspack-collected-ts-
 
 #[cacheable]
 #[derive(Debug, Default, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct TSEnumValue(
   #[cacheable(with=AsMap<AsPreset>)] FxHashMap<Atom, Option<EvaluatedInlinableValue>>,
 );

@@ -5,14 +5,11 @@ use rspack_core::{
   ModuleDependency, ReferencedExport, RuntimeSpec, TemplateContext, TemplateReplaceSource,
 };
 use rspack_intern::Atom;
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use crate::{css_syntax::escape_identifier, utils::replace_css_module_id_placeholder};
 
 #[cacheable]
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CssSelfReferenceLocalIdentReplacement {
   pub local_ident: String,
   pub range: DependencyRange,
@@ -20,7 +17,6 @@ pub struct CssSelfReferenceLocalIdentReplacement {
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CssSelfReferenceLocalIdentDependency {
   id: DependencyId,
   names: Vec<String>,
@@ -92,7 +88,6 @@ impl AsContextDependency for CssSelfReferenceLocalIdentDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CssSelfReferenceLocalIdentDependencyTemplate;
 
 impl CssSelfReferenceLocalIdentDependencyTemplate {

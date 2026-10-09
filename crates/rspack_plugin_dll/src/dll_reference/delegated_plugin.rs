@@ -5,14 +5,11 @@ use rspack_core::{
 };
 use rspack_error::Result;
 use rspack_hook::{plugin, plugin_hook};
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use super::delegated_module::DelegatedModule;
 use crate::DllManifestContent;
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct DelegatedPluginOptions {
   pub source: String,
 
@@ -31,7 +28,6 @@ pub struct DelegatedPluginOptions {
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct DelegatedPlugin {
   options: DelegatedPluginOptions,
 }

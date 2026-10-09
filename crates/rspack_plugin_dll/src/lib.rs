@@ -46,7 +46,6 @@ impl Serialize for DllManifestContentItemExports {
 #[cacheable]
 #[derive(Debug, Default, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct DllManifestContentItem {
   pub build_meta: BuildMeta,
 
@@ -58,7 +57,6 @@ pub struct DllManifestContentItem {
 }
 
 #[derive(Debug, Clone, Serialize)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct DllManifest {
   pub content: DllManifestContent,
 

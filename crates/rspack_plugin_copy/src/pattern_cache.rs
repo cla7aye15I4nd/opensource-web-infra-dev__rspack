@@ -1,12 +1,8 @@
 use std::path::{Path, PathBuf};
 
-#[cfg(allocative)]
-use rspack_util::allocative;
-
 use crate::RunPatternResult;
 
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub(super) struct CachedPatternResult {
   pub(super) results: Vec<RunPatternResult>,
   pub(super) file_dependencies: Vec<PathBuf>,

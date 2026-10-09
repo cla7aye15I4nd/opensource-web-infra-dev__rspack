@@ -5,8 +5,6 @@ use rspack_error::Result;
 use rspack_hash::RspackHashDigest;
 use rspack_paths::InternedPathSet;
 use rspack_tasks::within_compiler_context;
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rustc_hash::FxHashSet;
 
 use crate::{
@@ -143,7 +141,6 @@ impl Compiler {
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CompilationRecords {
   pub runtimes: RuntimeSpec,
   pub runtime_modules: IdentifierMap<RspackHashDigest>,

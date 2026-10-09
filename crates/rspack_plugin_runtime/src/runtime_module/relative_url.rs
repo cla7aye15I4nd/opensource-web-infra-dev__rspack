@@ -2,12 +2,9 @@ use rspack_core::{
   Compilation, RuntimeGlobals, RuntimeModule, RuntimeModuleGenerateContext, RuntimeTemplate,
   impl_runtime_module,
 };
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 #[impl_runtime_module]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RelativeUrlRuntimeModule {}
 
 impl RelativeUrlRuntimeModule {

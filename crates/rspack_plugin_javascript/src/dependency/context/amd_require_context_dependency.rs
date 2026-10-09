@@ -6,8 +6,6 @@ use rspack_core::{
   ModuleGraphCacheArtifact, ResourceIdentifier, TemplateContext, TemplateReplaceSource,
 };
 use rspack_error::Diagnostic;
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use super::{
   context_dependency_template_as_require_call, create_resource_identifier_for_context_dependency,
@@ -15,7 +13,6 @@ use super::{
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AMDRequireContextDependency {
   id: DependencyId,
   range: DependencyRange,
@@ -119,7 +116,6 @@ impl AsModuleDependency for AMDRequireContextDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AMDRequireContextDependencyTemplate;
 
 impl AMDRequireContextDependencyTemplate {

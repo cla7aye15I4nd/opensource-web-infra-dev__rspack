@@ -18,7 +18,6 @@ use rspack_util::allocative;
 use rspack_util::asset_condition::{AssetConditions, AssetConditionsObject, match_object};
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct BannerPluginOptions {
   // Specifies the banner.
   pub banner: BannerContent,
@@ -88,7 +87,6 @@ fn wrap_comment(str: &str) -> String {
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct BannerPlugin {
   config: BannerPluginOptions,
 }

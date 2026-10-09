@@ -31,7 +31,6 @@ static CSS_ASSET_REGEXP: LazyLock<Regex> =
   LazyLock::new(|| Regex::new(r"\.css(\?.*)?$").expect("Invalid RegExp"));
 
 #[derive(Debug, rspack_hash::RspackHash)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct PluginOptions {
   pub test: Option<AssetConditions>,
   pub include: Option<AssetConditions>,
@@ -41,19 +40,16 @@ pub struct PluginOptions {
 }
 
 #[derive(Debug, rspack_hash::RspackHash)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Draft {
   pub custom_media: bool,
 }
 
 #[derive(Debug, rspack_hash::RspackHash)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct NonStandard {
   pub deep_selector_combinator: bool,
 }
 
 #[derive(Debug, rspack_hash::RspackHash)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct PseudoClasses {
   pub hover: Option<String>,
   pub active: Option<String>,
@@ -79,7 +75,6 @@ pub struct MinimizerOptions {
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct LightningCssMinimizerRspackPlugin {
   options: PluginOptions,
 }

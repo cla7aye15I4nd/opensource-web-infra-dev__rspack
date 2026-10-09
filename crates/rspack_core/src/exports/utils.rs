@@ -21,7 +21,6 @@ use crate::{DependencyId, property_access};
 pub static NEXT_EXPORTS_INFO_UKEY: AtomicU32 = AtomicU32::new(0);
 
 #[derive(Debug, Clone, Hash)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ExportInfoTargetValue {
   pub dependency: Option<DependencyId>,
   pub export: Option<Vec<Atom>>,
@@ -264,7 +263,6 @@ impl UsageState {
 
 #[cacheable]
 #[derive(Debug, Clone, PartialEq, Eq)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct UsedByExports {
   condition: UsedByExportsCondition,
   #[cacheable(with=AsVec)]
@@ -322,7 +320,6 @@ pub enum UsedByExportsCondition {
 
 #[cacheable]
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct UsedByExportsDeferredPureCheck {
   pub dep_id: DependencyId,
   #[cacheable(with=AsPreset)]

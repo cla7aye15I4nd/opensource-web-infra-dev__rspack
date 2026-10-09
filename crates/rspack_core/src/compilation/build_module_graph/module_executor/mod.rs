@@ -7,8 +7,6 @@ mod overwrite;
 
 use rspack_collections::{Identifier, IdentifierDashMap, IdentifierDashSet};
 use rspack_error::Result;
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rustc_hash::{FxHashMap as HashMap, FxHashSet as HashSet};
 use tokio::{
   sync::{
@@ -35,7 +33,6 @@ use crate::{
 };
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ModuleExecutor {
   // data
   pub make_artifact: StealCell<BuildModuleGraphArtifact>,

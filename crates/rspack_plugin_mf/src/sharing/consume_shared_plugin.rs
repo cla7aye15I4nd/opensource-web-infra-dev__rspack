@@ -27,7 +27,6 @@ use crate::ShareScope;
 
 #[cacheable]
 #[derive(Debug, Clone, rspack_hash::RspackHash)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ConsumeOptions {
   pub import: Option<String>,
   pub import_resolved: Option<String>,
@@ -75,7 +74,6 @@ pub static PACKAGE_NAME: LazyLock<Regex> =
   LazyLock::new(|| Regex::new(r"^((?:@[^\\/]+[\\/])?[^\\/]+)").expect("Invalid regex"));
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct MatchedConsumes {
   pub resolved: FxHashMap<String, Arc<ConsumeOptions>>,
   pub unresolved: FxHashMap<String, Arc<ConsumeOptions>>,
@@ -138,7 +136,6 @@ pub fn get_required_version_from_description_file(
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ConsumeSharedPluginOptions {
   pub consumes: Vec<(String, Arc<ConsumeOptions>)>,
   pub enhanced: bool,
@@ -146,7 +143,6 @@ pub struct ConsumeSharedPluginOptions {
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ConsumeSharedPlugin {
   options: ConsumeSharedPluginOptions,
   resolver: OnceLock<Arc<Resolver>>,

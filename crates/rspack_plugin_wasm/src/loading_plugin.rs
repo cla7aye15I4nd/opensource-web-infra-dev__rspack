@@ -4,8 +4,6 @@ use rspack_core::{
 };
 use rspack_error::Result;
 use rspack_hook::{plugin, plugin_hook};
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use crate::runtime::{AsyncWasmCompileRuntimeModule, AsyncWasmLoadingRuntimeModule};
 
@@ -19,7 +17,6 @@ pub fn enable_wasm_loading_plugin(wasm_loading_type: WasmLoadingType) -> BoxPlug
 
 #[plugin]
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct FetchCompileAsyncWasmPlugin;
 
 #[plugin_hook(CompilationRuntimeRequirementInTree for FetchCompileAsyncWasmPlugin)]
@@ -91,7 +88,6 @@ impl Plugin for FetchCompileAsyncWasmPlugin {
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ReadFileCompileAsyncWasmPlugin {}
 
 impl ReadFileCompileAsyncWasmPlugin {
@@ -166,7 +162,6 @@ impl Plugin for ReadFileCompileAsyncWasmPlugin {
 
 #[plugin]
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct UniversalCompileAsyncWasmPlugin;
 
 #[plugin_hook(CompilationRuntimeRequirementInTree for UniversalCompileAsyncWasmPlugin)]

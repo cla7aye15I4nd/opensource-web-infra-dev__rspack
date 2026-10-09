@@ -33,8 +33,6 @@ use rspack_core::{
 use rspack_error::{Diagnostic, Error, Severity};
 use rspack_hash::{RspackHash, RspackHasher};
 use rspack_intern::IndexAtomSet;
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::json_stringify;
 use rustc_hash::{FxHashSet as HashSet, FxHasher};
 
@@ -52,7 +50,6 @@ const DYNAMIC_REEXPORT_RUNTIME_THRESHOLD: usize = 16;
 // case3: `export * from 'a'`
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ESMExportImportedSpecifierDependency {
   pub id: DependencyId,
   #[cacheable(with=AsVec<AsPreset>)]
@@ -1705,7 +1702,6 @@ fn find_dependency_for_name<'a>(
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ESMExportImportedSpecifierDependencyTemplate;
 
 impl ESMExportImportedSpecifierDependencyTemplate {
@@ -1784,7 +1780,6 @@ fn render_dynamic_reexport_excluded(values: &HashSet<Atom>) -> String {
   }
 }
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct ESMExportImportedSpecifierDependencyCondition;
 
 impl DependencyConditionFn for ESMExportImportedSpecifierDependencyCondition {

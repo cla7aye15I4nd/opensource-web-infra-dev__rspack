@@ -23,7 +23,6 @@ pub enum StaticExportsSpec {
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct StaticExportsDependency {
   id: DependencyId,
   exports: StaticExportsSpec,

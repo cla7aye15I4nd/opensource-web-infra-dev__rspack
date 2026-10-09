@@ -14,7 +14,6 @@ use crate::path::PathUtil;
 ///
 /// See [webpack resolve](https://webpack.js.org/configuration/resolve/) for information and examples
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ResolveOptions {
   /// Path to TypeScript configuration file.
   ///
@@ -481,7 +480,6 @@ impl std::fmt::Debug for Restriction {
 ///
 /// Derived from [tsconfig-paths-webpack-plugin](https://github.com/dividab/tsconfig-paths-webpack-plugin#options)
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct TsconfigOptions {
   /// Allows you to specify where to find the TypeScript configuration file.
   /// You may provide

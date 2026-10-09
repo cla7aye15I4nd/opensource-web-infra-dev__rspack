@@ -9,7 +9,6 @@ use rspack_cacheable::cacheable;
 /// - Column counts UTF-16 code units (not Unicode scalar values or UTF-8 bytes).
 #[cacheable]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct SourcePosition {
   pub line: u32,
   pub column: u32,
@@ -28,7 +27,6 @@ impl From<(u32, u32)> for SourcePosition {
 /// These positions are described in terms of lines and columns in the source code.
 #[cacheable]
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RealDependencyLocation {
   pub start: SourcePosition,
   pub end: Option<SourcePosition>,
@@ -161,7 +159,6 @@ impl fmt::Display for RealDependencyLocation {
 /// Represents a synthetic dependency location, such as a generated dependency.
 #[cacheable]
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct SyntheticDependencyLocation {
   pub name: Box<str>,
 }

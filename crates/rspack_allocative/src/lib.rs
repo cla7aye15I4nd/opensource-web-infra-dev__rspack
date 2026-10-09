@@ -13,7 +13,8 @@
 //! Crate implements lightweight memory profiler which allows
 //! object traversal and size introspection.
 //!
-//! An object implementing [`Allocative`] trait is introspectable, and this crate
+//! Ordinary structs are introspected through [`Visit`] without derives. Explicit
+//! [`Allocative`] adapters handle enums, containers and custom field policies. This crate
 //! provides [`FlameGraphBuilder`] to build a flame graph of the object tree.
 //!
 //! ## Allocative overhead
@@ -28,8 +29,8 @@
 //!
 //! Here are some differences between allocative and call-stack malloc profiler:
 //!
-//! * Allocative requires implementation of [`Allocative`] trait for each type
-//!   which needs to be measured, and some setup in the program to enable it
+//! * This Rspack fork reflects ordinary structs and uses explicit [`Allocative`]
+//!   adapters for ownership semantics that cannot be inferred from fields
 //! * Allocative flamegraph shows object by object tree, not by call stack
 //! * Allocative shows gaps in allocated memory,
 //!   e.g. spare capacity of collections or too large padding in structs or enums
@@ -39,6 +40,11 @@
 #![cfg_attr(rust_nightly, feature(const_type_name))]
 #![cfg_attr(rust_nightly, feature(never_type))]
 #![cfg_attr(rust_unstable_lazy_get, feature(lazy_get))]
+#![cfg_attr(
+  rust_allocative_reflection,
+  feature(type_info, ptr_metadata, core_intrinsics)
+)]
+#![cfg_attr(rust_allocative_reflection, allow(internal_features))]
 #![deny(rustdoc::broken_intra_doc_links)]
 #![allow(clippy::empty_enums)]
 
@@ -47,6 +53,8 @@ mod flamegraph;
 mod global_root;
 mod impls;
 mod key;
+#[cfg_attr(not(rust_allocative_reflection), path = "reflection_legacy.rs")]
+mod reflection;
 mod visitor;
 
 pub use allocative_derive::{Allocative, root};
@@ -56,6 +64,7 @@ pub use crate::{
   flamegraph::{FlameGraph, FlameGraphBuilder},
   global_root::register_root,
   key::Key,
+  reflection::Visit,
   visitor::Visitor,
 };
 

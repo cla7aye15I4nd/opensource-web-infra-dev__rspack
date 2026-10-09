@@ -155,7 +155,6 @@ pub struct JsTap<'f> {
 }
 
 #[derive(Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ThreadsafeJsTap {
   pub function: DynThreadsafeFunction,
   pub stage: i32,
@@ -234,7 +233,6 @@ type RegisterFunctionOutput = Vec<ThreadsafeJsTap>;
 // released by `clear_cache()`.
 type RegisterFunction = CompilerScopedTsFnHandle<Vec<i32>, RegisterFunctionOutput>;
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct RegisterJsTapsInner {
   register: RegisterFunction,
   cache: RegisterJsTapsCache,
@@ -503,7 +501,6 @@ pub enum RegisterJsTapKind {
 }
 
 #[derive(Default, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct NonSkippableRegisters(Arc<RwLock<Vec<RegisterJsTapKind>>>);
 
 impl NonSkippableRegisters {

@@ -30,8 +30,8 @@ pub struct InternedSlice<T: SliceInternable> {
 #[cfg(allocative)]
 impl<T: SliceInternable> allocative::Allocative for InternedSlice<T>
 where
-  T::Header: allocative::Allocative,
-  T::Item: allocative::Allocative,
+  T::Header: allocative::Visit + 'static,
+  T::Item: allocative::Visit + 'static,
 {
   fn visit<'a, 'b: 'a>(&self, visitor: &'a mut allocative::Visitor<'b>) {
     let mut visitor = visitor.enter_self(self);

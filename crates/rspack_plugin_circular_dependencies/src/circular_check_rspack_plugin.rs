@@ -32,7 +32,6 @@ pub struct CircularCheckRspackPluginOptions {
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CircularCheckRspackPlugin {
   options: CircularCheckRspackPluginOptions,
 }

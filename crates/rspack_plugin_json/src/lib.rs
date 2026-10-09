@@ -19,8 +19,6 @@ use rspack_core::{
   rspack_sources::{BoxSource, RawStringSource, Source, SourceExt},
 };
 use rspack_error::{Error, IntoTWithDiagnosticArray, Result, TWithDiagnosticArray, error};
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::{itoa, location::byte_line_column_to_offset};
 
 use crate::json_exports_dependency::JsonExportsDependency;
@@ -30,7 +28,6 @@ mod utils;
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct JsonParserAndGenerator {
   pub exports_depth: u32,
   pub json_parse: bool,
@@ -252,7 +249,6 @@ impl ParserAndGenerator for JsonParserAndGenerator {
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct JsonPlugin;
 
 impl Plugin for JsonPlugin {

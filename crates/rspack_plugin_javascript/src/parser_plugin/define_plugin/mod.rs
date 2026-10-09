@@ -1,6 +1,3 @@
-#[cfg(allocative)]
-use rspack_util::allocative;
-
 mod parser;
 mod utils;
 mod walk_data;
@@ -39,7 +36,6 @@ pub type DefineValue = FxHashMap<String, Value>;
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct DefinePlugin {
   walk_data: Arc<WalkData>,
 }

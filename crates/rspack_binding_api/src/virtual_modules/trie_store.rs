@@ -6,14 +6,12 @@ use ustr::{Ustr, UstrMap};
 
 use crate::virtual_modules::VirtualFileStore;
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct FileNode {
   ctime: u64,
   mtime: u64,
   content: Vec<u8>,
 }
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct DirectoryNode {
   ctime: u64,
   mtime: u64,
@@ -108,7 +106,6 @@ impl TrieNode {
   }
 }
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct TrieVirtualFileStore {
   inner: TrieNode,
 }

@@ -4,8 +4,6 @@ use rspack_core::{
   Compilation, OnPolicyCreationFailure, RuntimeGlobals, RuntimeModule,
   RuntimeModuleGenerateContext, RuntimeTemplate, impl_runtime_module,
 };
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use crate::{extract_runtime_module_variables_from_ejs, get_chunk_runtime_requirements};
 
@@ -16,7 +14,6 @@ static RUNTIME_MODULE_VARIABLES: LazyLock<Vec<&'static str>> =
 
 #[impl_runtime_module]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct GetTrustedTypesPolicyRuntimeModule {}
 
 impl GetTrustedTypesPolicyRuntimeModule {

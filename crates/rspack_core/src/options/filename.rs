@@ -435,7 +435,6 @@ impl Debug for FilenameKind {
 /// Other possible function types are `NoFilenameFn` and `LocalJsFilenameFn`
 #[cacheable]
 #[derive(PartialEq, Debug, Hash, Eq, Clone, PartialOrd, Ord)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Filename(FilenameKind);
 
 impl Filename {
@@ -871,8 +870,8 @@ fn test_data_uri() {
 }
 
 #[cfg(allocative)]
-impl allocative::Allocative for dyn FilenameFn {
-  fn visit<'a, 'b: 'a>(&self, visitor: &'a mut allocative::Visitor<'b>) {
+impl allocative::Visit for dyn FilenameFn {
+  fn visit_memory<'a, 'b: 'a>(&self, visitor: &'a mut allocative::Visitor<'b>) {
     visitor.visit_opaque(self);
   }
 }

@@ -7,8 +7,6 @@ use rspack_core::{
   DependencyTemplateType, DependencyType, ModuleDependency, ModuleIdentifier, TemplateContext,
   TemplateReplaceSource,
 };
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::placeholder::PlaceholderFinder;
 
 use crate::{css_syntax::serialize_url_value, utils::AUTO_PUBLIC_PATH_PLACEHOLDER};
@@ -18,7 +16,6 @@ static ASSET_AUTO_PUBLIC_PATH_MATCHER: LazyLock<PlaceholderFinder> =
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CssUrlDependency {
   id: DependencyId,
   request: String,
@@ -106,7 +103,6 @@ impl AsContextDependency for CssUrlDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CssUrlDependencyTemplate;
 
 impl CssUrlDependencyTemplate {

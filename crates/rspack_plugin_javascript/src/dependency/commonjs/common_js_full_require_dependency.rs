@@ -9,14 +9,11 @@ use rspack_core::{
   ReferencedExport, RuntimeGlobals, RuntimeSpec, TemplateContext, TemplateReplaceSource, UsedName,
   create_exports_object_referenced, property_access, to_normal_comment,
 };
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use crate::Atom;
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CommonJsFullRequireDependency {
   id: DependencyId,
   request: String,
@@ -162,7 +159,6 @@ impl AsContextDependency for CommonJsFullRequireDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CommonJsFullRequireDependencyTemplate;
 
 impl CommonJsFullRequireDependencyTemplate {

@@ -31,6 +31,10 @@ static DEV_SERVER_CLIENT_RE: LazyLock<RspackRegex> = LazyLock::new(|| {
 
 #[derive(Debug, Hash, Clone)]
 #[cfg_attr(allocative, derive(allocative::Allocative))]
+#[cfg_attr(
+  allocative,
+  allocative(bound = "F: LazyCompilationTestCheck + 'static")
+)]
 pub enum LazyCompilationTest<F: LazyCompilationTestCheck> {
   Regex(RspackRegex),
   Fn(F),
@@ -63,7 +67,6 @@ impl<F: LazyCompilationTestCheck> LazyCompilationTest<F> {
 
 #[derive(Debug)]
 #[plugin]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct LazyCompilationPlugin<T: Backend, F: LazyCompilationTestCheck> {
   backend: Mutex<T>,
   entries: bool, // enable for entries

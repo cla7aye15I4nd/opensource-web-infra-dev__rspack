@@ -10,14 +10,11 @@ use rspack_core::{
   UsedByExports,
 };
 use rspack_hash::{RspackHash, RspackHasher};
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use crate::runtime_condition_used_by_exports;
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct PureExpressionDependency {
   pub range: DependencyRange,
   used_by_exports: Option<Arc<UsedByExports>>,
@@ -102,7 +99,6 @@ impl AsContextDependency for PureExpressionDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct PureExpressionDependencyTemplate;
 
 impl PureExpressionDependencyTemplate {

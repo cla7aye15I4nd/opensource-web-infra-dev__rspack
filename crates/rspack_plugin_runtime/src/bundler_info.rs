@@ -20,7 +20,6 @@ pub enum BundlerInfoForceMode {
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct BundlerInfoPlugin {
   version: String,
   bundler_name: String,

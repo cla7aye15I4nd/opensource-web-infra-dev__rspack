@@ -6,14 +6,11 @@ use rspack_core::{
   ExportsSpec, RuntimeSpec, TemplateContext, TemplateReplaceSource,
 };
 use rspack_hash::{RspackHash, RspackHasher};
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use crate::{css_syntax::escape_identifier, utils::replace_css_module_id_placeholder};
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CssLocalIdentDependency {
   id: DependencyId,
   local_ident: String,
@@ -98,7 +95,6 @@ impl AsModuleDependency for CssLocalIdentDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CssLocalIdentDependencyTemplate;
 
 impl CssLocalIdentDependencyTemplate {

@@ -10,6 +10,7 @@ use rustc_hash::FxBuildHasher;
 
 #[derive(Debug)]
 #[cfg_attr(allocative, derive(allocative::Allocative))]
+#[cfg_attr(allocative, allocative(bound = "V: allocative::Visit + 'static"))]
 pub enum OverlayValue<V> {
   Value(V),
   Tombstone,
@@ -19,7 +20,7 @@ pub enum OverlayValue<V> {
 #[cfg_attr(allocative, derive(allocative::Allocative))]
 #[cfg_attr(
   allocative,
-  allocative(bound = "K: allocative::Allocative, V: allocative::Allocative, S")
+  allocative(bound = "K: allocative::Visit + 'static, V: allocative::Visit + 'static, S: 'static")
 )]
 pub struct OverlayMap<K, V, S = FxBuildHasher> {
   base: HashMap<K, V, S>,

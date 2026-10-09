@@ -6,8 +6,6 @@ use std::{
 };
 
 use rspack_cacheable::cacheable;
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::{fx_hash::FxDashMap, time::current_time};
 use rustc_hash::FxHasher;
 use tokio::sync::Mutex;
@@ -19,7 +17,6 @@ use crate::{
 };
 
 #[cacheable]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct CachedResolution {
   result: ResolveResult,
   dependencies: ResolveDependencies,
@@ -28,7 +25,6 @@ struct CachedResolution {
 
 /// Cloning shares cache, filesystem-info, request locks and statistics within one compilation.
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ResolverCache {
   cache: CacheFacade,
   file_system_info: FileSystemInfo,

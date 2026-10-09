@@ -8,8 +8,6 @@ use rspack_hash::{HashFunction, RspackHasher};
 use rspack_loader_runner::{Content, LoaderContext, LoaderDependencies, ParseMeta};
 use rspack_paths::{InternedPath, InternedPathSet};
 use rspack_sources::SourceMap;
-#[cfg(allocative)]
-use rspack_util::allocative;
 use rspack_util::time::current_time;
 
 use crate::{
@@ -60,7 +58,6 @@ pub fn loader_cache_etag(
 #[doc(hidden)]
 #[cacheable]
 #[derive(Clone, Copy)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct LoaderCacheDependencyKind(u8);
 
 bitflags! {
@@ -72,7 +69,6 @@ bitflags! {
 
 #[doc(hidden)]
 #[cacheable]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct LoaderCacheDependencySnapshot {
   dependencies: Snapshot,
   paths: Vec<InternedPath>,
@@ -162,7 +158,6 @@ pub fn loader_cache_item(
 }
 
 #[cacheable]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct LoaderCacheEntry {
   content: Option<Vec<u8>>,
   content_is_string: bool,

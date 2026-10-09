@@ -4,7 +4,7 @@ use std::{alloc::Layout, mem::size_of};
 
 use smol_str::SmolStr;
 
-use crate::{Allocative, Key, Visitor};
+use crate::{Allocative, Key, Visit, Visitor};
 
 /// Inline/static strings own no separate allocation. Heap strings share an Arc<str>.
 impl Allocative for SmolStr {
@@ -65,7 +65,7 @@ impl Allocative for fixedbitset::FixedBitSet {
   }
 }
 
-impl<K: Allocative, V: Allocative, S> Allocative for hashlink::LinkedHashMap<K, V, S> {
+impl<K: Visit, V: Visit, S> Allocative for hashlink::LinkedHashMap<K, V, S> {
   fn visit<'a, 'b: 'a>(&self, visitor: &'a mut Visitor<'b>) {
     let mut visitor = visitor.enter_self(self);
     visitor.visit_generic_map_fields(self);
@@ -73,7 +73,7 @@ impl<K: Allocative, V: Allocative, S> Allocative for hashlink::LinkedHashMap<K, 
   }
 }
 
-impl<T: arc_swap::RefCnt + Allocative> Allocative for arc_swap::ArcSwapAny<T> {
+impl<T: arc_swap::RefCnt + Visit> Allocative for arc_swap::ArcSwapAny<T> {
   fn visit<'a, 'b: 'a>(&self, visitor: &'a mut Visitor<'b>) {
     let mut visitor = visitor.enter_self(self);
     let value = self.load();
@@ -103,7 +103,7 @@ impl Allocative for json::JsonValue {
     visitor.exit();
   }
 }
-impl<K: Allocative + Eq + std::hash::Hash, V: Allocative, S: std::hash::BuildHasher, const N: usize>
+impl<K: Visit + Eq + std::hash::Hash, V: Visit, S: std::hash::BuildHasher, const N: usize>
   Allocative for halfbrown::SizedHashMap<K, V, S, N>
 {
   fn visit<'a, 'b: 'a>(&self, visitor: &'a mut Visitor<'b>) {
@@ -124,7 +124,7 @@ impl<K: Allocative + Eq + std::hash::Hash, V: Allocative, S: std::hash::BuildHas
   }
 }
 
-impl Allocative for simd_json::BorrowedValue<'_> {
+impl Allocative for simd_json::BorrowedValue<'static> {
   fn visit<'a, 'b: 'a>(&self, visitor: &'a mut Visitor<'b>) {
     let mut visitor = visitor.enter_self(self);
     match self {
@@ -149,7 +149,7 @@ impl Allocative for simd_json::OwnedValue {
   }
 }
 
-impl<T: Allocative, S> Allocative for hashlink::LinkedHashSet<T, S> {
+impl<T: Visit, S> Allocative for hashlink::LinkedHashSet<T, S> {
   fn visit<'a, 'b: 'a>(&self, visitor: &'a mut Visitor<'b>) {
     let mut visitor = visitor.enter_self(self);
     visitor.visit_generic_set_fields(self);
@@ -208,7 +208,7 @@ impl Allocative for swc_core::atoms::Wtf8Atom {
   }
 }
 
-impl<T: Allocative> Allocative for swc_config::types::BoolOrDataConfig<T> {
+impl<T: Visit> Allocative for swc_config::types::BoolOrDataConfig<T> {
   fn visit<'a, 'b: 'a>(&self, visitor: &'a mut Visitor<'b>) {
     let mut visitor = visitor.enter_self(self);
     if let Some(swc_config::types::BoolOr::Data(value)) = self.inner() {

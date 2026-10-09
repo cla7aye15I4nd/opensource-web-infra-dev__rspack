@@ -39,7 +39,6 @@ impl fmt::Display for OptimizationBailoutItem {
 
 #[cacheable]
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ModuleGraphModule {
   // edges from module to module
   outgoing_connections: FxHashSet<ModuleGraphConnectionId>,

@@ -48,7 +48,6 @@ pub enum ExternalRequest {
 
 #[cacheable]
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ExternalRequestValue {
   pub primary: String,
   rest: Option<Vec<String>>,
@@ -523,7 +522,6 @@ fn resolve_external_type<'a>(
 #[impl_source_map_config]
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ExternalModule {
   dependencies_block: DependenciesBlockData,
   pub id: Identifier,
@@ -551,7 +549,6 @@ pub type MetaExternalType = Option<ExternalTypeEnum>;
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct DependencyMeta {
   pub external_type: MetaExternalType,
   pub attributes: Option<ImportAttributes>,

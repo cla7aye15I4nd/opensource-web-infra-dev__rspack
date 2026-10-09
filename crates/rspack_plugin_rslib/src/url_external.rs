@@ -5,8 +5,6 @@ use rspack_core::{
   ExternalModule, JavascriptParserUrl, TemplateContext, TemplateReplaceSource,
 };
 use rspack_plugin_javascript::dependency::URLDependency;
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 fn should_cutout_url_external(
   cutout_all_externals: bool,
@@ -87,7 +85,6 @@ fn render_url_external_module(
 }
 
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ExternalURLDependencyTemplate {
   pub cutout_all_externals: bool,
   pub template: Option<Arc<dyn DependencyTemplate>>,

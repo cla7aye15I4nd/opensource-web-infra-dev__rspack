@@ -59,7 +59,6 @@ impl ExportsBase {
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CommonJsExportsDependency {
   id: DependencyId,
   range: DependencyRange,
@@ -160,7 +159,6 @@ impl AsContextDependency for CommonJsExportsDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CommonJsExportsDependencyTemplate;
 
 impl CommonJsExportsDependencyTemplate {

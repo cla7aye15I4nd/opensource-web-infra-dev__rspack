@@ -29,7 +29,6 @@ static RUNTIME_MODULE_VARIABLES: LazyLock<Vec<&'static str>> = LazyLock::new(|| 
 
 #[cacheable]
 #[derive(Debug, Default, Clone, Hash, PartialEq, Eq)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct EmbedFederationRuntimeModuleOptions {
   pub collected_dependency_ids: Vec<DependencyId>,
   pub experiments: ModuleFederationRuntimeExperimentsOptions,
@@ -37,7 +36,6 @@ pub struct EmbedFederationRuntimeModuleOptions {
 
 #[impl_runtime_module]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct EmbedFederationRuntimeModule {
   options: EmbedFederationRuntimeModuleOptions,
 }
@@ -179,6 +177,3 @@ impl RuntimeModule for EmbedFederationRuntimeModule {
     RuntimeModuleStage::Trigger // Run after RemoteRuntimeModule and StartupChunkDependenciesRuntimeModule
   }
 }
-
-#[cfg(allocative)]
-use rspack_util::allocative;

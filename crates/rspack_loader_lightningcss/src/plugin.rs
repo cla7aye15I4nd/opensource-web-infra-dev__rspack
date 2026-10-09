@@ -1,7 +1,5 @@
 use std::sync::Arc;
 
-#[cfg(allocative)]
-use rspack_core::allocative;
 use rspack_core::{
   BoxLoader, Context, ModuleFactoryCreateData, ModuleRuleUseLoader,
   NormalModuleFactoryResolveLoader, Plugin, Resolver,
@@ -13,7 +11,6 @@ use crate::{LIGHTNINGCSS_LOADER_IDENTIFIER, config::Config};
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct LightningcssLoaderPlugin;
 
 impl LightningcssLoaderPlugin {

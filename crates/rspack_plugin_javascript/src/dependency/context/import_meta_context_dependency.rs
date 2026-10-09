@@ -13,7 +13,6 @@ use super::create_resource_identifier_for_context_dependency;
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ImportMetaContextDependency {
   id: DependencyId,
   options: ContextOptions,
@@ -166,7 +165,6 @@ impl AsModuleDependency for ImportMetaContextDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ImportMetaContextDependencyTemplate;
 
 impl ImportMetaContextDependencyTemplate {

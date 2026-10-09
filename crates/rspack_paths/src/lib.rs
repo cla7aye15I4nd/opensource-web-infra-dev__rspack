@@ -114,7 +114,6 @@ impl<'a> AssertUtf8 for &'a Path {
 ///
 /// This is what makes an [`InternedPath`] a thin pointer with a content hash attached and no second
 /// indirection to reach the bytes.
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct PreHashedPath;
 
 impl SliceInternable for PreHashedPath {
@@ -165,7 +164,6 @@ fn path_from_bytes(bytes: &[u8]) -> &Path {
 /// (see [`Hash`] below).
 #[cfg_attr(feature = "cacheable", cacheable(with=cacheable::AsInternedPath))]
 #[derive(Clone, PartialEq, Eq)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct InternedPath(InternedSlice<PreHashedPath>);
 
 impl Debug for InternedPath {

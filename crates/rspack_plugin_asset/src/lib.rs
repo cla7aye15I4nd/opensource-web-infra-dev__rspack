@@ -30,7 +30,6 @@ pub const AUTO_PUBLIC_PATH_PLACEHOLDER: &str = "__RSPACK_PLUGIN_ASSET_AUTO_PUBLI
 
 #[plugin]
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AssetPlugin;
 
 static JS_AND_ASSET_URL_TYPES: &[SourceType; 2] = &[SourceType::JavaScript, SourceType::AssetUrl];
@@ -72,7 +71,6 @@ enum DataUrlOptions {
 
 #[cacheable]
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct AssetParserAndGenerator {
   emit: bool,
   data_url: DataUrlOptions,

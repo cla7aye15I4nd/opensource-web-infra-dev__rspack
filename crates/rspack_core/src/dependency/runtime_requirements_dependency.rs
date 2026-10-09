@@ -30,7 +30,6 @@ impl RspackHash for RuntimeRequirementsDependencyWriteOperation {
 
 #[cacheable]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RuntimeRequirementsDependencyWriteInfo {
   pub value_range: DependencyRange,
   pub assignment_range: DependencyRange,
@@ -88,7 +87,6 @@ impl RuntimeRequirementsDependencyMode {
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RuntimeRequirementsDependency {
   pub range: DependencyRange,
   pub runtime_requirements: RuntimeGlobals,
@@ -190,7 +188,6 @@ impl RuntimeRequirementsDependency {
 
 #[cacheable]
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CodeGenerationRuntimeRequirementsWrite {
   pub runtime_requirements: RuntimeGlobals,
 }
@@ -206,7 +203,6 @@ impl CodeGenerationRuntimeRequirementsWrite {
 
 #[cacheable]
 #[derive(Debug, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct RuntimeRequirementsDependencyTemplate;
 
 impl RuntimeRequirementsDependencyTemplate {

@@ -20,7 +20,7 @@ pub type BoxedParserAndGeneratorBuilder =
 
 #[derive(Debug)]
 #[cfg_attr(allocative, derive(allocative::Allocative))]
-#[cfg_attr(allocative, allocative(bound = "T: allocative::Allocative, U"))]
+#[cfg_attr(allocative, allocative(bound = "T: allocative::Visit + 'static, U"))]
 pub struct ArcComputed<T, U> {
   owner: Arc<T>,
   // Non-owning projection into owner; visiting it would count the same value twice.
@@ -175,7 +175,6 @@ impl<'a> From<&'a ResolvedModuleOptions> for &'a JsonGeneratorOptions {
 
 #[cacheable]
 #[derive(Debug, Clone, Hash, PartialEq, Eq)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ResolvedModuleOptionsCacheKey {
   pub rule_ids: ModuleRuleIds,
   pub module_type: ModuleType,
@@ -203,7 +202,6 @@ impl ResolvedModuleOptionsCacheKey {
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ResolvedModuleOptions {
   cache_key: ResolvedModuleOptionsCacheKey,
   parser: Option<ParserOptions>,

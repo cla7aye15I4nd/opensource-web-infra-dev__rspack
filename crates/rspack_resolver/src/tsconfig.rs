@@ -23,7 +23,6 @@ const TEMPLATE_VARIABLE: &str = "${configDir}";
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct TsConfig {
   /// Whether this is the caller tsconfig.
   /// Used for final template variable substitution when all configs are extended and merged.
@@ -57,7 +56,6 @@ pub struct TsConfig {
 /// <https://www.typescriptlang.org/tsconfig#compilerOptions>
 #[derive(Debug, Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CompilerOptions {
   base_url: Option<Utf8PathBuf>,
 
@@ -73,7 +71,6 @@ pub struct CompilerOptions {
 ///
 /// <https://www.typescriptlang.org/docs/handbook/project-references.html>
 #[derive(Debug, Deserialize)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ProjectReference {
   /// The path property of each reference can point to a directory containing a tsconfig.json file,
   /// or to the config file itself (which may have any name).

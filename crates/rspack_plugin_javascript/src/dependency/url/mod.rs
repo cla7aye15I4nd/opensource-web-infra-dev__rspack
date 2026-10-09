@@ -10,14 +10,11 @@ use rspack_core::{
   ModuleGraphCacheArtifact, ModuleGraphConnection, RuntimeGlobals, RuntimeSpec,
   SideEffectsStateArtifact, TemplateContext, TemplateReplaceSource, URLStaticMode, UsedByExports,
 };
-#[cfg(allocative)]
-use rspack_util::allocative;
 
 use crate::{Atom, connection_active_used_by_exports, runtime::AUTO_PUBLIC_PATH_PLACEHOLDER};
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct URLDependency {
   id: DependencyId,
   #[cacheable(with=AsPreset)]
@@ -118,7 +115,6 @@ impl AsContextDependency for URLDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct URLDependencyTemplate;
 
 pub static URL_STATIC_PLACEHOLDER: &str = "RSPACK_AUTO_URL_STATIC_PLACEHOLDER_";
@@ -195,7 +191,6 @@ impl DependencyTemplate for URLDependencyTemplate {
   }
 }
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct URLDependencyCondition;
 
 impl DependencyConditionFn for URLDependencyCondition {

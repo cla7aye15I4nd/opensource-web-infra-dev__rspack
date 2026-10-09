@@ -1,6 +1,3 @@
-#[cfg(allocative)]
-use rspack_core::allocative;
-
 mod chunk_combination;
 
 use chunk_combination::{ChunkCombination, ChunkCombinationBucket, ChunkCombinationUkey};
@@ -34,7 +31,6 @@ fn add_to_set_map(
 }
 
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct LimitChunkCountPluginOptions {
   // Constant overhead for a chunk.
   pub chunk_overhead: Option<f64>,
@@ -46,7 +42,6 @@ pub struct LimitChunkCountPluginOptions {
 
 #[plugin]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct LimitChunkCountPlugin {
   options: LimitChunkCountPluginOptions,
 }

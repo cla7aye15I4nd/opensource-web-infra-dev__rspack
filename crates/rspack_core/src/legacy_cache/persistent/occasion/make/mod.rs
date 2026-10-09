@@ -1,6 +1,3 @@
-#[cfg(allocative)]
-use rspack_util::allocative;
-
 mod alternatives;
 mod module_graph;
 
@@ -20,7 +17,6 @@ use crate::{
 
 /// Make Occasion persists the build module graph as a cache item.
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct MakeOccasion {
   codec: Arc<CacheCodec>,
 }

@@ -10,7 +10,6 @@ use crate::{Result, displayer::Renderer, error::Error};
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Diagnostic {
   pub error: Error,
 

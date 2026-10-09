@@ -118,12 +118,10 @@ struct ContextValue {
 /// See webpack's `FileSystemInfo` implementation:
 /// https://github.com/webpack/webpack/blob/ce97d583e1cd8f3e47b70737de72e91b567a8497/lib/FileSystemInfo.js#L1282-L1450
 #[derive(Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct FileSystemInfo {
   inner: Arc<FileSystemInfoInner>,
 }
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 struct FileSystemInfoInner {
   fs: Arc<dyn ReadableFileSystem>,
   logger: FileSystemInfoLogger,

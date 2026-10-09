@@ -114,7 +114,6 @@ impl IncrementalPasses {
 }
 
 #[derive(Debug, Clone, Copy)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct IncrementalOptions {
   pub silent: bool,
   pub passes: IncrementalPasses,
@@ -160,7 +159,6 @@ impl fmt::Debug for IncrementalState {
   }
 }
 
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Incremental {
   silent: bool,
   passes: AtomicU16,

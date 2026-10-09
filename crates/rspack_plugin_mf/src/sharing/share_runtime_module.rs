@@ -35,7 +35,6 @@ static RUNTIME_MODULE_VARIABLES: LazyLock<Vec<&'static str>> =
 
 #[impl_runtime_module]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ShareRuntimeModule {
   enhanced: bool,
 }
@@ -193,14 +192,12 @@ impl RuntimeModule for ShareRuntimeModule {
 
 #[cacheable]
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct CodeGenerationDataShareInit {
   pub items: Vec<ShareInitData>,
 }
 
 #[cacheable]
 #[derive(Debug, Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ShareInitData {
   pub share_scope: ShareScope,
   pub init_stage: DataInitStage,
@@ -219,7 +216,6 @@ pub enum DataInitInfo {
 
 #[cacheable]
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ProvideSharedInfo {
   pub name: String,
   pub version: ProvideVersion,

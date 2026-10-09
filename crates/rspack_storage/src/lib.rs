@@ -65,9 +65,9 @@ pub trait Storage: StorageAllocative + std::fmt::Debug + Sync + Send {
 pub type BoxStorage = Box<dyn Storage>;
 
 #[cfg(allocative)]
-pub trait StorageAllocative: allocative::Allocative {}
+pub trait StorageAllocative: allocative::Visit {}
 #[cfg(allocative)]
-impl<T: allocative::Allocative + ?Sized> StorageAllocative for T {}
+impl<T: allocative::Visit + ?Sized> StorageAllocative for T {}
 #[cfg(not(allocative))]
 pub trait StorageAllocative {}
 #[cfg(not(allocative))]

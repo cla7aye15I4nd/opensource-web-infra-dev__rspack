@@ -38,7 +38,6 @@ use crate::{
 ///   "start1\nstart2\nreplaced!\nend1\nend2"
 /// );
 /// ```
-#[cfg_attr(feature = "allocative", derive(allocative::Allocative))]
 pub struct ReplaceSource {
   inner: BoxSource,
   replacements: Vec<Replacement>,
@@ -59,7 +58,6 @@ pub enum ReplacementEnforce {
 
 /// A single text replacement in a [ReplaceSource].
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
-#[cfg_attr(feature = "allocative", derive(allocative::Allocative))]
 pub struct Replacement {
   start: u32,
   end: u32,

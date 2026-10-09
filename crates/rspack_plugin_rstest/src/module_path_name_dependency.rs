@@ -18,7 +18,6 @@ pub enum NameType {
 
 #[cacheable]
 #[derive(Debug)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ModulePathNameDependency {
   r#type: NameType,
 }
@@ -41,7 +40,6 @@ impl AsContextDependency for ModulePathNameDependency {}
 
 #[cacheable]
 #[derive(Debug, Clone, Default)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct ModulePathNameDependencyTemplate;
 
 impl ModulePathNameDependencyTemplate {

@@ -61,7 +61,6 @@ pub enum ResolveResult {
 /// Contains the raw `package.json` value if there is one.
 #[cacheable]
 #[derive(Clone)]
-#[cfg_attr(allocative, derive(allocative::Allocative))]
 pub struct Resource {
   #[cacheable(with=AsPreset)]
   pub path: Utf8PathBuf,
